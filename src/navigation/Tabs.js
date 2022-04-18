@@ -1,27 +1,35 @@
-import React from "react";
+import React, {useState, useContext, useEffect} from "react";
 import { Text, View, Image, TouchableOpacity } from 'react-native';
 import { icons, COLORS } from '../constants';
+
+
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 import Svg, { Path } from "react-native-svg";
 import { HomeScreen, NewsScreen } from "../screens";
+import NewsContextProvider from "../context/NewsContext";
 
 const Tab = createBottomTabNavigator();
 
 const NewsStack = createNativeStackNavigator();
 const HomeStack = createNativeStackNavigator();
 
+
 const NewsStackScreen = () => (
-    <NewsStack.Navigator
-        screenOptions={{
-            headerShown: false
-        }}
-    >
-        <NewsStack.Screen name="News" component={NewsScreen} />
-        {/* <NewsStack.Screen name="NewsDetail" component={NewsDetail} /> */}
-    </NewsStack.Navigator>
+    <NewsContextProvider>
+        <NewsStack.Navigator
+            screenOptions={{
+                headerShown: false
+            }}
+        >
+            {/* <NewsContext.Provider value={news}> */}
+                <NewsStack.Screen name="News" component={NewsScreen} />
+            {/* </NewsContext.Provider> */}
+            {/* <NewsStack.Screen name="NewsDetail" component={NewsDetail} /> */}
+        </NewsStack.Navigator>
+    </NewsContextProvider>
 )
 
 const HomeStackScreen = () => (
