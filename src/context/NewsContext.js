@@ -1,8 +1,9 @@
 import React, { createContext } from 'react'
 import { useState, useEffect } from 'react';
-import { db } from '../config/firebase';
+import { db, storage, app } from '../config/firebase';
 import { collection, getDocs } from 'firebase/firestore';
 import { NewsScreen } from '../screens';
+import { ref as sRef, getDownloadURL } from 'firebase/storage';
 
 
 
@@ -11,6 +12,7 @@ export const NewsContext = createContext();
 function NewsContextProvider(props){
     const [news, setNews] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
+    const [newsFromFourth, setNewsFromFourth] = useState([]);
 
 
     useEffect(() => {
@@ -25,9 +27,10 @@ function NewsContextProvider(props){
         };
         setIsLoading(false);
         getNews();
+        setNewsFromFourth(news)
       }, []);
 
-    const value = { news, setNews, isLoading }
+    const value = { news, setNews, isLoading, newsFromFourth }
     return (
         <NewsContext.Provider value={value}>
             {props.children}

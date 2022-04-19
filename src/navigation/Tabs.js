@@ -8,7 +8,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 import Svg, { Path } from "react-native-svg";
-import { HomeScreen, NewsScreen } from "../screens";
+import { HomeScreen, NewsScreen, NewsDetail } from "../screens";
 import NewsContextProvider from "../context/NewsContext";
 
 const Tab = createBottomTabNavigator();
@@ -27,7 +27,7 @@ const NewsStackScreen = () => (
             {/* <NewsContext.Provider value={news}> */}
                 <NewsStack.Screen name="News" component={NewsScreen} />
             {/* </NewsContext.Provider> */}
-            {/* <NewsStack.Screen name="NewsDetail" component={NewsDetail} /> */}
+            <NewsStack.Screen name="NewsDetail" component={NewsDetail} />
         </NewsStack.Navigator>
     </NewsContextProvider>
 )
