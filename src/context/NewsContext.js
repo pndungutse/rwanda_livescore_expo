@@ -18,6 +18,7 @@ function NewsContextProvider(props){
     useEffect(() => {
         const getNews = async () => {
           const data = await getDocs(collection(db, "news"));
+          console.log(data);
           setNews(
             data.docs.map((doc) => ({
               ...doc.data(),
@@ -29,6 +30,7 @@ function NewsContextProvider(props){
         getNews();
         setNewsFromFourth(news)
       }, []);
+      // console.log(news);
 
     const value = { news, setNews, isLoading, newsFromFourth }
     return (

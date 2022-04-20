@@ -1,20 +1,22 @@
 import { Text, View, StyleSheet, Image, SafeAreaView, TouchableOpacity, FlatList, Animated, ScrollView, ActivityIndicator } from "react-native";
 import React, {useState, useEffect, useContext} from 'react'
-import { db } from '../config/firebase';
-import { collection, getDocs } from 'firebase/firestore';
 import { COLORS, FONTS, icons, images, SIZES } from "../constants";
 
 import { NewsContext } from "../context/NewsContext";
 
 const NewsScreen = ({navigation}) => {
-    const { news, isLoading, newsFromFourth } = useContext(NewsContext);
+    const { news, isLoading, newsFromFourth, setNews } = useContext(NewsContext);
 
     const scrollX = new Animated.Value(0);
     // const [news, setNews] = useState(newsData);
     // const [newsFromFourth, setNewsFromFourth] = useState(news);
-    // const [refresh, setRefresh] = useState(true);
+    const [refresh, setRefresh] = useState(true);
 
-  // console.log(news);
+//   console.log(news);
+  const fetchNews = () => {
+    setNews(news);
+    setRefresh(false);
+}
 
   function renderNewsHorizontalOrg() {
     return (
@@ -37,7 +39,7 @@ const NewsScreen = ({navigation}) => {
                       activeOpacity={.8}
                       
                     >
-                    <View style={{borderColor: COLORS.darkgray, borderWidth: 0.1, borderRadius: 5, marginRight: 10, marginLeft: 0, width: 450, height: 50, width: 420, height: 310}}>
+                    <View style={{borderColor: COLORS.darkgray, borderWidth: 0.1, borderRadius: 5, marginRight: 10, marginLeft: 0, width: 450, height: 50, width: 420, height: 330}}>
                     <View style={{marginBottom: 10, marginTop: 30, marginLeft: -27}}>
                         <Image 
                             source={{uri: item.image}}
@@ -55,15 +57,15 @@ const NewsScreen = ({navigation}) => {
                             </View>
                         </View>
                         {/* Title */}
-                        
                     
                     </View>
                     <View style={{marginLeft: 10, marginTop: 0}}>
-                        <Text numberOfLines={2} style={{fontSize: 16, fontWeight: 'bold'}}> {item.title} </Text>
+                        <Text numberOfLines={2} style={{fontSize: 16, fontWeight: 'bold'}}>{item.title} </Text>
                     </View>
 
                     <View style={{marginLeft: 10, marginBottom: 8}}>
                         {/* <Text> {item.date_inserted} </Text> */}
+                        <Text>{new Date(item.date_inserted.seconds * 1000).toLocaleDateString("en-US")}</Text>
                     </View>
 
                 </View>
@@ -198,7 +200,7 @@ function renderNewsVertical() {
                     showsVerticalScrollIndicator={false}
                     ListHeaderComponent={renderAtTopNews}
                     // refreshing={refresh}
-                    // onRefresh={() => fetchNews()}x
+                    // onRefresh={() => fetchNews()}
                 />
     )
 }
