@@ -2,6 +2,7 @@ import React, {useState, useContext, useEffect} from "react";
 import { Text, View, Image, TouchableOpacity } from 'react-native';
 import { icons, COLORS } from '../constants';
 
+import { Ionicons, FontAwesome } from '@expo/vector-icons'; 
 
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
@@ -113,15 +114,16 @@ const Tabs = () => {
                 component={HomeStackScreen}
                 options={{
                     tabBarIcon: ({focused}) => (
-                        <Image 
-                            source={icons.football} 
-                            resizeMode="contain"
-                            style={{
-                                width: 25,
-                                height: 25,
-                                tintColor: focused ? '#fff' : COLORS.secondary
-                            }}
-                        />
+                        // <Image 
+                        //     source={icons.football} 
+                        //     resizeMode="contain"
+                        //     style={{
+                        //         width: 25,
+                        //         height: 25,
+                        //         tintColor: focused ? '#fff' : COLORS.secondary
+                        //     }}
+                        // />
+                        <Ionicons name="football" size={25} color="#fff"/>
                     ),
                     tabBarButton: (props) => (
                         <TabBarCustomButton 
@@ -136,15 +138,17 @@ const Tabs = () => {
                 component={NewsStackScreen}
                 options={{
                     tabBarIcon: ({focused}) => (
-                        <Image 
-                            source={icons.newspaper} 
-                            resizeMode="contain"
-                            style={{
-                                width: 25,
-                                height: 25,
-                                tintColor: focused ? '#fff' : COLORS.secondary
-                            }}
-                        />
+                        // <Image 
+                        //     source={icons.newspaper} 
+                        //     resizeMode="contain"
+                        //     style={{
+                        //         width: 25,
+                        //         height: 25,
+                        //         tintColor: focused ? '#fff' : COLORS.secondary
+                        //     }}
+                        // />
+                        <Ionicons name="newspaper-outline" size={25} color="#fff" />
+                        
                     ),
                     tabBarButton: (props) => (
                         <TabBarCustomButton 
@@ -158,15 +162,16 @@ const Tabs = () => {
                 component={HomeScreen}
                 options={{
                     tabBarIcon: ({focused}) => (
-                        <Image 
-                            source={icons.favorite} 
-                            resizeMode="contain"
-                            style={{
-                                width: 25,
-                                height: 25,
-                                tintColor: focused ? '#fff' : COLORS.secondary
-                            }}
-                        />
+                        // <Image 
+                        //     source={icons.favorite} 
+                        //     resizeMode="contain"
+                        //     style={{
+                        //         width: 25,
+                        //         height: 25,
+                        //         tintColor: focused ? '#fff' : COLORS.secondary
+                        //     }}
+                        // />
+                        <FontAwesome name="area-chart" size={25} color="#fff" />
                     ),
                     tabBarButton: (props) => (
                         <TabBarCustomButton 
@@ -180,15 +185,16 @@ const Tabs = () => {
                 component={HomeScreen}
                 options={{
                     tabBarIcon: ({focused}) => (
-                        <Image 
-                            source={icons.settings} 
-                            resizeMode="contain"
-                            style={{
-                                width: 25,
-                                height: 25,
-                                tintColor: focused ? '#fff' : COLORS.secondary
-                            }}
-                        />
+                        // <Image 
+                        //     source={icons.settings} 
+                        //     resizeMode="contain"
+                        //     style={{
+                        //         width: 25,
+                        //         height: 25,
+                        //         tintColor: focused ? '#fff' : COLORS.secondary
+                        //     }}
+                        // />
+                        <Ionicons name="md-settings-sharp" size={25} color="#fff" />
                     ),
                     tabBarButton: (props) => (
                         <TabBarCustomButton 

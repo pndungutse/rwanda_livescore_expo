@@ -5,7 +5,7 @@ import { COLORS, FONTS, icons, images, SIZES } from "../constants";
 import { NewsContext } from "../context/NewsContext";
 
 const NewsScreen = ({navigation}) => {
-    const { news, isLoading, newsFromFourth, setNews } = useContext(NewsContext);
+    const { news, isLoading, newsFromFourth, setNews, error } = useContext(NewsContext);
 
     const scrollX = new Animated.Value(0);
     // const [news, setNews] = useState(newsData);
@@ -190,7 +190,9 @@ function renderNewsVertical() {
     return (
         // isLoading == true ? <View style={{flex: 1, justifyContent: 'center', alignItems: 'center', marginTop: 250}}><ActivityIndicator size='large' color='#212437' /></View>
                 // : error ? <View><Text>{error}</Text></View>
-                // : 
+                error ? <View><Text>{error}</Text></View>
+
+                : 
                 news?.length < 1 ? <View style={{flex: 1, justifyContent: 'center', alignItems: 'center', marginTop: 250}}><ActivityIndicator size='large' color='#212437' /></View>
                 :
                 <FlatList 

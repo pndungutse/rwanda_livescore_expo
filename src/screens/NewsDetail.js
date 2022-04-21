@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import { COLORS, FONTS, icons, images, SIZES } from "../constants";
 import { Text, View, StyleSheet, Image, SafeAreaView, TouchableOpacity, FlatList, Animated, ScrollView, ActivityIndicator } from "react-native";
+import { Ionicons } from '@expo/vector-icons';
 
 import { NewsContext } from "../context/NewsContext";
 
@@ -46,7 +47,7 @@ const NewsDetail = ({route, navigation}) => {
                     onPress={() => navigation.goBack()}
                 >
                 <View style={{padding: 5}}>
-                    <Image 
+                    {/* <Image 
                         source={icons.chevron_left}
                         resizeMode='contain'
                         style={{
@@ -56,14 +57,15 @@ const NewsDetail = ({route, navigation}) => {
                             backgroundColor: '#212437',
                             marginLeft: 5
                         }}
-                    />
+                    /> */}
+                    <Ionicons name="chevron-back-circle-sharp" size={37} color="black" />
                 </View>
             </TouchableOpacity>
             </View>
             <View style={{marginLeft: 10, }}> 
                 <Text style={{fontSize: 17, fontWeight: 'bold' ,color: '#212437', marginBottom: 10}}>{wholeNew?.category}</Text>
                 <Text style={{fontSize: 18, fontWeight: 'bold' ,color: COLORS.black, marginBottom: 30}}>{wholeNew?.title} </Text>
-                <Text style={{fontSize: 17, marginBottom: 20}}>{wholeNew?.desc} </Text>
+                <Text style={{fontSize: 17, marginBottom: 20}}>{wholeNew?.desc.replace('\\n', '\n\n')} </Text>
                 <Text style={{fontSize: 20, fontWeight: 'bold' ,color: '#212437', marginBottom: 15}}>Recent News</Text>
             </View>   
         </View>

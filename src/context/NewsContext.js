@@ -12,19 +12,25 @@ export const NewsContext = createContext();
 function NewsContextProvider(props){
     const [news, setNews] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
+    const [error, setError] = useState(null);
     const [newsFromFourth, setNewsFromFourth] = useState([]);
 
 
     useEffect(() => {
         const getNews = async () => {
-          const data = await getDocs(collection(db, "news"));
-          console.log(data);
-          setNews(
+          try {
+            const data = await getDocs(collection(db, "news"))
+              setNews(
             data.docs.map((doc) => ({
               ...doc.data(),
               id: doc.id,
-            }))
-          );
+            })),
+            // setTimeout(news, 1500)
+          )
+          } catch (err) {
+            setError(err.toString())
+          }
+          
         };
         setIsLoading(false);
         getNews();
@@ -32,7 +38,7 @@ function NewsContextProvider(props){
       }, []);
       // console.log(news);
 
-    const value = { news, setNews, isLoading, newsFromFourth }
+    const value = { news, setNews, isLoading, newsFromFourth, error }
     return (
         <NewsContext.Provider value={value}>
             {props.children}

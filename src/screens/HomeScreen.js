@@ -11,6 +11,7 @@ import {
     Image
   } from 'react-native';
 import { COLORS, images, icons, SIZES, FONTS } from "../constants";
+import { Ionicons, FontAwesome } from '@expo/vector-icons'; 
 import HorizontalDatePicker from '@logisticinfotech/react-native-horizontal-date-picker';
 
 
@@ -26,7 +27,7 @@ const HomeScreen = () => {
             height: 52,
             marginBottom: 1, 
             backgroundColor: '#212437',
-            marginTop: 35
+            marginTop: 30
           }}>
             <TouchableOpacity style={{
               width: 50,
@@ -34,7 +35,7 @@ const HomeScreen = () => {
               justifyContent: 'center'
             }}
             >
-              <Image 
+              {/* <Image 
                 source={icons.settings}
                 style={{
                     resizeMode:'contain',
@@ -42,7 +43,8 @@ const HomeScreen = () => {
                     height: 22,
                     tintColor: COLORS.white
                 }}
-              />
+              /> */}
+              <Ionicons name="md-settings-sharp" size={20} color="#fff" />
             </TouchableOpacity>
             <View style={{
               flex: 1,
@@ -69,7 +71,7 @@ const HomeScreen = () => {
               width: 50,
               justifyContent: 'center'
             }}>
-              <Image 
+              {/* <Image 
                 source={icons.search}
                 style={{
                     resizeMode:'contain',
@@ -77,7 +79,8 @@ const HomeScreen = () => {
                     height: 22,
                     tintColor: COLORS.white
                 }}
-              />
+              /> */}
+              <Ionicons name="search" size={20} color="#fff" />
             </TouchableOpacity>
           </View>
         )
