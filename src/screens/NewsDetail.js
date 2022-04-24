@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { COLORS, FONTS, icons, images, SIZES } from "../constants";
 import { Text, View, StyleSheet, Image, SafeAreaView, TouchableOpacity, FlatList, Animated, ScrollView, ActivityIndicator } from "react-native";
 import { Ionicons } from '@expo/vector-icons';

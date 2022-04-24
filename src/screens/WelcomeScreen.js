@@ -1,6 +1,8 @@
 import React from 'react';
 import { Text, View, Image, StyleSheet, TouchableOpacity } from 'react-native';
-import { COLORS, SIZES, FONTS, icons, images } from '../constants';
+import { COLORS, FONTS, images } from '../constants';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Entypo } from '@expo/vector-icons';
 
 const WelcomeScreen = ({navigation}) => {
     return (
@@ -33,15 +35,7 @@ const WelcomeScreen = ({navigation}) => {
                                 <Text style={{color: COLORS.white}}>GET STARTED</Text>
                             </View>
                             <View style={{marginLeft: 110}}>
-                                <Image 
-                                    source={icons.chevron_right}
-                                    style={{
-                                        resizeMode: "contain",
-                                        width: 15,
-                                        height: 15,
-                                        tintColor: COLORS.white,
-                                    }}
-                                />
+                                <Entypo name="chevron-right" size={24} color="white" />
                             </View>   
                         </View>      
                 </View> 

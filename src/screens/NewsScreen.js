@@ -1,16 +1,18 @@
 import { Text, View, StyleSheet, Image, SafeAreaView, TouchableOpacity, FlatList, Animated, ScrollView, ActivityIndicator } from "react-native";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, {useState, useEffect, useContext} from 'react'
 import { COLORS, FONTS, icons, images, SIZES } from "../constants";
 
 import { NewsContext } from "../context/NewsContext";
+import { MaterialIcons } from '@expo/vector-icons'; 
 
 const NewsScreen = ({navigation}) => {
-    const { news, isLoading, newsFromFourth, setNews, error } = useContext(NewsContext);
+    const { news, isLoading, newsFromFourth, setNews, error, refresh, setRefresh } = useContext(NewsContext);
 
     const scrollX = new Animated.Value(0);
     // const [news, setNews] = useState(newsData);
     // const [newsFromFourth, setNewsFromFourth] = useState(news);
-    const [refresh, setRefresh] = useState(true);
+    // const [refresh, setRefresh] = useState(true);
 
 //   console.log(news);
   const fetchNews = () => {
@@ -140,7 +142,7 @@ function renderAtTopNews() {
                 {renderDots()}
             </View>
             <View style={{flexDirection: 'row', marginLeft: 10}}>
-                <Image 
+                {/* <Image 
                     source={icons.latest}
                     resizeMode='contain'
                     style={{
@@ -148,7 +150,8 @@ function renderAtTopNews() {
                         height: 22,
                         tintColor: COLORS.black
                     }}
-                />
+                /> */}
+                <MaterialIcons name="autorenew" size={22} color="black" />
                 <Text style={{...FONTS.h2, fontWeight: 'bold', marginBottom: 10, marginLeft: 5, marginTop: -5}}>Latest Stories</Text>
             </View>
         </View>
@@ -201,8 +204,8 @@ function renderNewsVertical() {
                     renderItem={renderNewsVeri}
                     showsVerticalScrollIndicator={false}
                     ListHeaderComponent={renderAtTopNews}
-                    // refreshing={refresh}
-                    // onRefresh={() => fetchNews()}
+                    refreshing={refresh}
+                    onRefresh={() => fetchNews()}
                 />
     )
 }

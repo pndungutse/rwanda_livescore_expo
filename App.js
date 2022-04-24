@@ -21,6 +21,7 @@
  
 import { WelcomeScreen } from './src/screens';
 // import { HomeScreen } from './src/screens';
+import { HighlightScreen } from './src/screens';
 import { Tabs } from './src/navigation';
  
  
@@ -39,6 +40,8 @@ import { Tabs } from './src/navigation';
          >
            <Stack.Screen name='Welcome' component={WelcomeScreen} />
            <Stack.Screen name='Home' component={Tabs} />
+           {/* <Stack.Screen name='HighlightScreen' component={HighlightScreen} /> */}
+
          </Stack.Navigator>
        </NavigationContainer>
    );

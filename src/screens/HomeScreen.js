@@ -1,23 +1,25 @@
 import React, {useState, useEffect, useContext} from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import {
     SafeAreaView,
-    ScrollView,
-    StatusBar,
     StyleSheet,
     Text,
-    useColorScheme,
     View,
     TouchableOpacity,
-    Image
   } from 'react-native';
-import { COLORS, images, icons, SIZES, FONTS } from "../constants";
+import { COLORS, FONTS } from "../constants";
 import { Ionicons, FontAwesome } from '@expo/vector-icons'; 
 import HorizontalDatePicker from '@logisticinfotech/react-native-horizontal-date-picker';
-
+import { Fontisto } from '@expo/vector-icons';
 
 const HomeScreen = () => {
     const [dateSelected, setDateSelected] = useState();
 
+    //Youtube api: AIzaSyCGlc9DAUTwx_6B4S_91UjTN0msV165keU
+
+    // Search from youtube https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=1&q=Hello world in react native&key=AIzaSyCGlc9DAUTwx_6B4S_91UjTN0msV165keU'
+ 
+  
 
     function renderHeader() {
         return (
@@ -35,16 +37,7 @@ const HomeScreen = () => {
               justifyContent: 'center'
             }}
             >
-              {/* <Image 
-                source={icons.settings}
-                style={{
-                    resizeMode:'contain',
-                    width: 22,
-                    height: 22,
-                    tintColor: COLORS.white
-                }}
-              /> */}
-              <Ionicons name="md-settings-sharp" size={20} color="#fff" />
+              <Fontisto name="nav-icon-a" size={18} color="#fff" />
             </TouchableOpacity>
             <View style={{
               flex: 1,
@@ -61,7 +54,7 @@ const HomeScreen = () => {
                 <Text style={{
                   color: COLORS.white,
                   ...FONTS.h4
-                }}>Rwanda LiveScore</Text>
+                }}>Rwanda Livescore</Text>
               </View>
               
             </View>
@@ -71,16 +64,7 @@ const HomeScreen = () => {
               width: 50,
               justifyContent: 'center'
             }}>
-              {/* <Image 
-                source={icons.search}
-                style={{
-                    resizeMode:'contain',
-                    width: 22,
-                    height: 22,
-                    tintColor: COLORS.white
-                }}
-              /> */}
-              <Ionicons name="search" size={20} color="#fff" />
+              <Ionicons name="search" size={25} color="#fff" />
             </TouchableOpacity>
           </View>
         )
@@ -104,7 +88,7 @@ const HomeScreen = () => {
             dayFormat={'DD'}
             monthFormat ={'MMM'}
             returnDateFormat={'YYYY-MM-DD'}
-            minDate={new Date()}
+            minDate={new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate()-7)}
             defaultSelected={new Date()}
             datePickerContainerStyle={{
               backgroundColor: COLORS.white,

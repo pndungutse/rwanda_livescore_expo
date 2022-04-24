@@ -1,4 +1,5 @@
 import React, { createContext } from 'react'
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useState, useEffect } from 'react';
 import { db, storage, app } from '../config/firebase';
 import { collection, getDocs } from 'firebase/firestore';
@@ -13,6 +14,7 @@ function NewsContextProvider(props){
     const [news, setNews] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [refresh, setRefresh] = useState(true);
     const [newsFromFourth, setNewsFromFourth] = useState([]);
 
 
@@ -27,6 +29,7 @@ function NewsContextProvider(props){
             })),
             // setTimeout(news, 1500)
           )
+          setRefresh(false)
           } catch (err) {
             setError(err.toString())
           }
@@ -38,7 +41,7 @@ function NewsContextProvider(props){
       }, []);
       // console.log(news);
 
-    const value = { news, setNews, isLoading, newsFromFourth, error }
+    const value = { news, setNews, isLoading, newsFromFourth, error, refresh, setRefresh }
     return (
         <NewsContext.Provider value={value}>
             {props.children}

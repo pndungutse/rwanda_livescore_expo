@@ -1,21 +1,25 @@
 import React, {useState, useContext, useEffect} from "react";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Text, View, Image, TouchableOpacity } from 'react-native';
 import { icons, COLORS } from '../constants';
 
-import { Ionicons, FontAwesome } from '@expo/vector-icons'; 
+import { Ionicons, FontAwesome, EvilIcons } from '@expo/vector-icons'; 
 
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 import Svg, { Path } from "react-native-svg";
-import { HomeScreen, NewsScreen, NewsDetail } from "../screens";
+import { HomeScreen, NewsScreen, NewsDetail, HighlightScreen, StatisticScreen, HighlightDetail } from "../screens";
 import NewsContextProvider from "../context/NewsContext";
+import HightlightContextProvider from "../context/HighlightContext";
 
 const Tab = createBottomTabNavigator();
 
 const NewsStack = createNativeStackNavigator();
 const HomeStack = createNativeStackNavigator();
+const HighlightsStack = createNativeStackNavigator();
+const StatisticsStack = createNativeStackNavigator();
 
 
 const NewsStackScreen = () => (
@@ -42,6 +46,28 @@ const HomeStackScreen = () => (
         <HomeStack.Screen name="Home" component={HomeScreen} />
         {/* <HomeStack.Screen name="MatchDetail" component={MatchDetail} /> */}
     </HomeStack.Navigator>
+)
+const HighlightsStackScreen = () => (
+    <HightlightContextProvider>
+        <HighlightsStack.Navigator
+            screenOptions={{
+                headerShown: false
+            }}
+        >
+        <HighlightsStack.Screen name="Highlightss" component={HighlightScreen} />
+        <HighlightsStack.Screen name="HighlightDetail" component={HighlightDetail} />
+        </HighlightsStack.Navigator>
+    </HightlightContextProvider>
+)
+const StatisticStackScreen = () => (
+        <StatisticsStack.Navigator
+            screenOptions={{
+                headerShown: false
+            }}
+        >
+        <StatisticsStack.Screen name="StatisticsScreen" component={StatisticScreen} />
+        {/* <StatisticsStack.Screen name="HighlightDetail" component={HighlightDetail} /> */}
+        </StatisticsStack.Navigator>
 )
 const TabBarCustomButton = ({ accessibilityState, children, onPress }) => {
     var isSelected = accessibilityState.selected
@@ -114,15 +140,6 @@ const Tabs = () => {
                 component={HomeStackScreen}
                 options={{
                     tabBarIcon: ({focused}) => (
-                        // <Image 
-                        //     source={icons.football} 
-                        //     resizeMode="contain"
-                        //     style={{
-                        //         width: 25,
-                        //         height: 25,
-                        //         tintColor: focused ? '#fff' : COLORS.secondary
-                        //     }}
-                        // />
                         <Ionicons name="football" size={25} color="#fff"/>
                     ),
                     tabBarButton: (props) => (
@@ -138,17 +155,7 @@ const Tabs = () => {
                 component={NewsStackScreen}
                 options={{
                     tabBarIcon: ({focused}) => (
-                        // <Image 
-                        //     source={icons.newspaper} 
-                        //     resizeMode="contain"
-                        //     style={{
-                        //         width: 25,
-                        //         height: 25,
-                        //         tintColor: focused ? '#fff' : COLORS.secondary
-                        //     }}
-                        // />
-                        <Ionicons name="newspaper-outline" size={25} color="#fff" />
-                        
+                        <Ionicons name="newspaper-outline" size={25} color="#fff" />   
                     ),
                     tabBarButton: (props) => (
                         <TabBarCustomButton 
@@ -158,19 +165,24 @@ const Tabs = () => {
                 }}
             />
             <Tab.Screen
-                name="Favorite"
-                component={HomeScreen}
+                name="Highlights"
+                component={HighlightsStackScreen}
                 options={{
                     tabBarIcon: ({focused}) => (
-                        // <Image 
-                        //     source={icons.favorite} 
-                        //     resizeMode="contain"
-                        //     style={{
-                        //         width: 25,
-                        //         height: 25,
-                        //         tintColor: focused ? '#fff' : COLORS.secondary
-                        //     }}
-                        // />
+                        <Ionicons name="videocam-outline" size={27} color="#fff" />   
+                    ),
+                    tabBarButton: (props) => (
+                        <TabBarCustomButton 
+                            {...props}
+                        />
+                    )
+                }}
+            />
+            <Tab.Screen
+                name="Statistics"
+                component={StatisticStackScreen}
+                options={{
+                    tabBarIcon: ({focused}) => (
                         <FontAwesome name="area-chart" size={25} color="#fff" />
                     ),
                     tabBarButton: (props) => (
@@ -180,21 +192,13 @@ const Tabs = () => {
                     )
                 }}
             />
+            
             <Tab.Screen
                 name="Settings"
                 component={HomeScreen}
                 options={{
                     tabBarIcon: ({focused}) => (
-                        // <Image 
-                        //     source={icons.settings} 
-                        //     resizeMode="contain"
-                        //     style={{
-                        //         width: 25,
-                        //         height: 25,
-                        //         tintColor: focused ? '#fff' : COLORS.secondary
-                        //     }}
-                        // />
-                        <Ionicons name="md-settings-sharp" size={25} color="#fff" />
+                        <EvilIcons name="refresh" size={30} color="#fff" />
                     ),
                     tabBarButton: (props) => (
                         <TabBarCustomButton 
