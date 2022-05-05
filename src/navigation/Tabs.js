@@ -11,8 +11,10 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 import Svg, { Path } from "react-native-svg";
 import { HomeScreen, NewsScreen, NewsDetail, HighlightScreen, StatisticScreen, HighlightDetail } from "../screens";
-import NewsContextProvider from "../context/NewsContext";
-import HightlightContextProvider from "../context/HighlightContext";
+// import NewsContextProvider from "../context/NewsContext";
+// import HightlightContextProvider from "../context/HighlightContext";
+import { NewsContextProvider, HightlightContextProvider, FixturesContextProvider } from "../context";
+
 
 const Tab = createBottomTabNavigator();
 
@@ -38,6 +40,7 @@ const NewsStackScreen = () => (
 )
 
 const HomeStackScreen = () => (
+    <FixturesContextProvider>
     <HomeStack.Navigator
         screenOptions={{
             headerShown: false
@@ -46,6 +49,7 @@ const HomeStackScreen = () => (
         <HomeStack.Screen name="Home" component={HomeScreen} />
         {/* <HomeStack.Screen name="MatchDetail" component={MatchDetail} /> */}
     </HomeStack.Navigator>
+    </FixturesContextProvider>
 )
 const HighlightsStackScreen = () => (
     <HightlightContextProvider>

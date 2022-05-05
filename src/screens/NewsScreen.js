@@ -7,7 +7,7 @@ import { NewsContext } from "../context/NewsContext";
 import { MaterialIcons } from '@expo/vector-icons'; 
 
 const NewsScreen = ({navigation}) => {
-    const { news, isLoading, newsFromFourth, setNews, error, refresh, setRefresh } = useContext(NewsContext);
+    const { news, isLoading, newsFromFourth, setNews, error, refresh, setRefresh, getNews } = useContext(NewsContext);
 
     const scrollX = new Animated.Value(0);
     // const [news, setNews] = useState(newsData);
@@ -16,6 +16,7 @@ const NewsScreen = ({navigation}) => {
 
 //   console.log(news);
   const fetchNews = () => {
+    getNews();
     setNews(news);
     setRefresh(false);
 }

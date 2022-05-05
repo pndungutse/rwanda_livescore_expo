@@ -17,9 +17,7 @@ function NewsContextProvider(props){
     const [refresh, setRefresh] = useState(true);
     const [newsFromFourth, setNewsFromFourth] = useState([]);
 
-
-    useEffect(() => {
-        const getNews = async () => {
+const getNews = async () => {
           try {
             const data = await getDocs(collection(db, "news"))
               setNews(
@@ -35,6 +33,8 @@ function NewsContextProvider(props){
           }
           
         };
+    useEffect(() => {
+        
         setIsLoading(false);
         getNews();
         setNewsFromFourth(news)
