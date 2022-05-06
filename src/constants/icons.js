@@ -5,6 +5,7 @@ export const matchTable = require("../assets/icons/table.png");
 export const matchH2H = require("../assets/icons/h2h.png");
 export const stadium = require("../assets/icons/stadium.png");
 export const date_range = require("../assets/icons/date-range.png");
+export const sports_soccer = require("../assets/icons/sports-soccer.png");
 
 export default {
     matchInfo,
@@ -13,5 +14,6 @@ export default {
     matchTable,
     matchH2H,
     stadium,
-    date_range
+    date_range,
+    sports_soccer,
 }

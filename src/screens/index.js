@@ -5,6 +5,7 @@ import NewsDetail from "./NewsDetail";
 import HighlightScreen from "./HighlightScreen";
 import StatisticScreen from "./StatisticScreen";
 import HighlightDetail from "./HighlightDetail";
+import MatchDetail from "./MatchDetail";
 
 export {
     WelcomeScreen,
@@ -13,5 +14,6 @@ export {
     NewsDetail,
     HighlightScreen,
     StatisticScreen,
-    HighlightDetail
+    HighlightDetail,
+    MatchDetail
 }   

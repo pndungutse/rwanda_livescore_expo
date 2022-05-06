@@ -11,15 +11,15 @@ import { ref as sRef, getDownloadURL } from 'firebase/storage';
 export const FixturesContext = createContext();
 
 function FixturesContextProvider(props){
-    const [fixtures, setFixtures] = useState([]);
+    const [firstDivisionFixtures, setFirstDivisionFixtures] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
     const [refresh, setRefresh] = useState(true);
 
-    const getFixtures = async () => {
+    const getFirstDivionFixtures = async () => {
       try {
         const data = await getDocs(collection(db, "year/mLKbCVlBQRjpL9ZIjcVa/league/PAQcjUL3HZshWd8Xl1MU/match_day/xuI3Ay7X8DP5niUNpQbz/fixtures"))
-        setFixtures(
+        setFirstDivisionFixtures(
             data.docs.map((doc) => ({
             ...doc.data(),
             id: doc.id,
@@ -33,12 +33,12 @@ function FixturesContextProvider(props){
       
     };
     useEffect(() => {
-        getFixtures();
+        getFirstDivionFixtures();
         setIsLoading(false);
       }, []);
     //   console.log(fixtures);
 
-    const value = { fixtures, setFixtures, isLoading, error, refresh, setRefresh, getFixtures }
+    const value = { firstDivisionFixtures, setFirstDivisionFixtures, isLoading, error, refresh, setRefresh, getFirstDivionFixtures }
     return (
         <FixturesContext.Provider value={value}>
             {props.children}
