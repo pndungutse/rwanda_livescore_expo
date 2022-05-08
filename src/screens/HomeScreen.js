@@ -247,9 +247,10 @@ const HomeScreen = ({navigation}) => {
     <SafeAreaView style={{backgroundColor: COLORS.white, flex: 1}}>
             {/* {renderHeader()} */}
             <Header />
+            <Text>{dateSelected}</Text>
+
             {renderHorizontalDatePicker()}
             {renderFirstDivisionMatches()}
-            <Text>{dateSelected}</Text>
             
             {/* <FlatList 
                     data={fixtures}

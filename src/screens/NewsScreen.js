@@ -16,7 +16,6 @@ const NewsScreen = ({navigation}) => {
 
 //   console.log(news);
   const fetchNews = () => {
-    getNews();
     setNews(news);
     setRefresh(false);
 }
