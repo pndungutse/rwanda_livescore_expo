@@ -8,7 +8,7 @@ const HighlightDetail = ({route, navigation}) => {
 
     useEffect(() => {
         let {item} = route.params;
-        console.log(item);
+        // console.log(item);
         // setWholeItem(item);
     }, []);
   return (

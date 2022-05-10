@@ -1,7 +1,8 @@
 import React, {useState, useEffect, useContext} from 'react';
 import Header from '../components/Header'
+import moment from 'moment';
 import { db, storage, app } from '../config/firebase';
-import { collection, getDocs } from 'firebase/firestore';
+import { collection, getDocs, where, query, serverTimestamp } from 'firebase/firestore';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Text, View, StyleSheet, Image, SafeAreaView, TouchableOpacity, FlatList, ActivityIndicator, SectionList } from "react-native";
 import { COLORS, FONTS } from "../constants";
@@ -21,6 +22,31 @@ const HomeScreen = ({navigation}) => {
       setFirstDivisionFixtures(firstDivisionFixtures);
       setRefresh(false);
   }
+  // function getStartOfToday() {
+  //   const now = new Date()
+  //   now.setHours(5, 0, 0, 0) // +5 hours for Eastern Time
+  //   const timestamp = serverTimestamp.t(now)
+  //   return timestamp // ex. 1631246400
+  // }
+
+  // const getTestData = async () => {
+
+  //   // const server_time = db.ServerValue.TIMESTAMP
+  //   // console.log(server_time);
+
+  //   const todayDate = new Date();
+  //   todayDate.setDate(todayDate.getDate() - 3)
+  //   // console.log(todayDate.toLocaleDateString())
+  //   const data = await query(collection(db, "year/mLKbCVlBQRjpL9ZIjcVa/league/PAQcjUL3HZshWd8Xl1MU/match_day/xuI3Ay7X8DP5niUNpQbz/fixtures"))
+  //   const querySnapshot = getDocs(data);
+  //   querySnapshot.docs.map((doc) => 
+  //     console.log(doc.data())
+  //   )
+  // }
+
+  // useEffect(() => {
+  //     // getTestData()
+  // }, [])
 
     //Youtube api: AIzaSyCGlc9DAUTwx_6B4S_91UjTN0msV165keU
 
@@ -73,6 +99,7 @@ const HomeScreen = ({navigation}) => {
       function renderFirstDivisionMatches() {
 
         const renderFirstDivisionFixtures = ({item}) => {
+          
           return(
             <View>
             <TouchableOpacity

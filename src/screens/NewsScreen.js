@@ -1,4 +1,5 @@
 import { Text, View, StyleSheet, Image, SafeAreaView, TouchableOpacity, FlatList, Animated, ScrollView, ActivityIndicator } from "react-native";
+import moment from "moment";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, {useState, useEffect, useContext} from 'react'
 import { COLORS, FONTS, icons, images, SIZES } from "../constants";
@@ -67,7 +68,8 @@ const NewsScreen = ({navigation}) => {
 
                     <View style={{marginLeft: 10, marginBottom: 8}}>
                         {/* <Text> {item.date_inserted} </Text> */}
-                        <Text>{new Date(item.date_inserted.seconds * 1000).toLocaleDateString("en-US")}</Text>
+                        {/* <Text>{new Date(item.date_inserted.seconds * 1000).toLocaleDateString("en-US")}</Text> */}
+                        <Text>{moment(item.date_inserted.toDate()).calendar()}</Text>
                     </View>
 
                 </View>
@@ -182,8 +184,12 @@ function renderNewsVertical() {
                 </View>
                 <View style={{marginLeft: 10, flex: 1}}>
                     <Text numberOfLines={3} style={{...FONTS.body3, fontWeight:'bold', marginBottom: 10}}>{item.title} </Text>
-                    <View style={{width: 80, backgroundColor: COLORS.black, justifyContent: 'center', alignItems: 'center', borderRadius: 5}}>
-                        <Text style={{color: COLORS.white}}> {item.category} </Text>
+                    <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+                        <View style={{width: 80, backgroundColor: COLORS.black, justifyContent: 'center', alignItems: 'center', borderRadius: 5}}>
+                            <Text style={{color: COLORS.white}}> {item.category} </Text>
+                        </View>
+                        <Text> {moment(item.date_inserted.toDate()).calendar()}</Text>
+
                     </View>
                 </View>
             </View>

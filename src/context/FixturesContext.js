@@ -2,7 +2,7 @@ import React, { createContext } from 'react'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useState, useEffect } from 'react';
 import { db, storage, app } from '../config/firebase';
-import { collection, getDocs } from 'firebase/firestore';
+import { collection, getDocs, where, query } from 'firebase/firestore';
 import { NewsScreen } from '../screens';
 import { ref as sRef, getDownloadURL } from 'firebase/storage';
 
@@ -18,7 +18,9 @@ function FixturesContextProvider(props){
 
     const getFirstDivionFixtures = async () => {
       try {
+        // const dateSelected = '2019-01-05'
         const data = await getDocs(collection(db, "year/mLKbCVlBQRjpL9ZIjcVa/league/PAQcjUL3HZshWd8Xl1MU/match_day/xuI3Ay7X8DP5niUNpQbz/fixtures"))
+        // console.log(data);
         setFirstDivisionFixtures(
             data.docs.map((doc) => ({
             ...doc.data(),
