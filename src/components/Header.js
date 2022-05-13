@@ -6,15 +6,14 @@ import { Fontisto } from '@expo/vector-icons';
 
 
 
-const HomeScreen = ({navigation}) => {
+const Header = ({navigation}) => {
 
 
     return ( 
             <View style={{
                 flexDirection: 'row',
-                marginTop: 0,
                 height: 52,
-                marginBottom: 1, 
+                // marginBottom: 1, 
                 backgroundColor: '#212437',
                 marginTop: 30
               }}>
@@ -51,10 +50,10 @@ const HomeScreen = ({navigation}) => {
                   width: 50,
                   justifyContent: 'center'
                 }}>
-                  <Ionicons name="search" size={25} color="#fff" />
+                  {/* <Ionicons name="search" size={25} color="#fff" /> */}
                 </TouchableOpacity>
               </View> 
     )
 
 }
-export default HomeScreen
+export default Header

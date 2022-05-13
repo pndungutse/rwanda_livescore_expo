@@ -10,11 +10,13 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 import Svg, { Path } from "react-native-svg";
+import { db, storage, app } from '../config/firebase';
+import { collection, getDocs, query, orderBy, doc, getDoc, onSnapshot } from 'firebase/firestore';
+
 import { HomeScreen, NewsScreen, NewsDetail, HighlightScreen, StatisticScreen, HighlightDetail, MatchDetail, SkeletonTestScreen } from "../screens";
 // import NewsContextProvider from "../context/NewsContext";
 // import HightlightContextProvider from "../context/HighlightContext";
 import { NewsContextProvider, HightlightContextProvider, FixturesContextProvider } from "../context";
-
 
 const Tab = createBottomTabNavigator();
 
@@ -127,6 +129,44 @@ const TabBarCustomButton = ({ accessibilityState, children, onPress }) => {
 }
 
 const Tabs = () => {
+
+    const [document, setDocument] = useState();
+    const [isLoading, setIsLoading] = useState(true);
+    const [error, setError] = useState(null);
+    const [refresh, setRefresh] = useState(true);
+    const [textTest, setTextTest] = useState(true);
+    // const [newsFromFourth, setNewsFromFourth] = useState([]);
+
+    // const testText = "Hello World";
+    // const getNeed = async () => {
+    //     try {
+    //       const documentRef = await doc(db, 'needs', 'HvXow1htm69a0pqFucm5');
+    //       // console.log(q);
+    //       const data = await getDoc(documentRef);
+    //     //   onSnapshot(documentRef, (document) => {
+    //     //       setDocument(document.data(), document.id)
+    //     //   })
+    //       setDocument(onSnapshot(documentRef, (document) => {
+    //           document.data(), document.id
+    //       }))
+    //     setRefresh(false)
+    //     } catch (err) {
+    //       setError(err.toString())
+    //     }   
+    //   };
+
+
+      useEffect(() => {
+        // getNeed();
+        // console.log(document);
+        // console.log("Test Test");
+        const documentRef = doc(db, 'needs', 'HvXow1htm69a0pqFucm5');
+        onSnapshot(documentRef, (docum) => {
+            setDocument(docum.data(), docum.id);
+        });
+        console.log(document?.firstNews);
+      }, []);
+
     return (
         <Tab.Navigator  
             screenOptions={{
@@ -139,13 +179,22 @@ const Tabs = () => {
                 },  
             }}
         >
+            {/* <NeedsContextProvider> */}
             <Tab.Screen
-                name="Homee"
-                component={HomeStackScreen}
+                name={document?.firstNews === true ? "Newss" : "Homee"}
+                component={document?.firstNews == true ? NewsStackScreen : HomeStackScreen}
                 options={{
-                    tabBarIcon: ({focused}) => (
-                        <Ionicons name="football" size={25} color="#fff"/>
-                    ),
+                    tabBarIcon: ({focused}) => {
+                        if (document.firstNews === true) {
+                            return (
+                                <Ionicons name="newspaper-outline" size={25} color="#fff" />     
+                            )
+                        }else {
+                            return (
+                                <Ionicons name="football" size={25} color="#fff" />
+                            )
+                        }
+                    },
                     tabBarButton: (props) => (
                         <TabBarCustomButton 
                             {...props}
@@ -155,12 +204,21 @@ const Tabs = () => {
             
             />
             <Tab.Screen
-                name="Soccer"
-                component={NewsStackScreen}
+                name={document?.firstNews === true ? "News" : "Soccer"}
+                component={document?.firstNews === true ? HomeStackScreen : NewsStackScreen}
                 options={{
-                    tabBarIcon: ({focused}) => (
-                        <Ionicons name="newspaper-outline" size={25} color="#fff" />   
-                    ),
+                    tabBarIcon: ({focused}) => 
+                    {
+                    if (document.firstNews === true) {
+                        return (
+                            <Ionicons name="football" size={25} color="#fff" />     
+                        )
+                    }else {
+                        return (
+                            <Ionicons name="newspaper-outline" size={25} color="#fff" />
+                        )
+                    }
+                },
                     tabBarButton: (props) => (
                         <TabBarCustomButton 
                             {...props}
@@ -211,6 +269,7 @@ const Tabs = () => {
                     )
                 }}
             />
+        {/* </NeedsContextProvider> */}
         </Tab.Navigator>
     )
 }

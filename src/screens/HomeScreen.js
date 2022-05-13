@@ -12,59 +12,48 @@ import { Fontisto } from '@expo/vector-icons';
 import { FixturesContext } from '../context/FixturesContext';
 
 const HomeScreen = ({navigation}) => {
-    const [dateSelected, setDateSelected] = useState();
+    // const [dateSelected, setDateSelected] = useState();
     // const [fixtures, setFixtures] = useState([]);
-    const { firstDivisionFixtures, setFirstDivisionFixtures, isLoading, error, refresh, setRefresh, getFirstDivionFixtures } = useContext(FixturesContext);
 
+    // const [firstDivisionFixtures, setFirstDivisionFixtures] = useState([]);
+    // const [isLoading, setIsLoading] = useState(true);
+    // const [error, setError] = useState(null);
+    // const [refresh, setRefresh] = useState(true);
+    // const [dateSelected, setDateSelected] = useState(new Date().setHours(0,0,0,0));
+    const { firstDivisionFixtures, setFirstDivisionFixtures, isLoading,setIsLoading, error, refresh, setRefresh, getFirstDivionFixtures, dateSelected, setDateSelected, onDateSelected, fetchFixtures } = useContext(FixturesContext);
 
-    const fetchFixtures = () => {
-      getFirstDivionFixtures();
-      setFirstDivisionFixtures(firstDivisionFixtures);
-      setRefresh(false);
-  }
-  // function getStartOfToday() {
-  //   const now = new Date()
-  //   now.setHours(5, 0, 0, 0) // +5 hours for Eastern Time
-  //   const timestamp = serverTimestamp.t(now)
-  //   return timestamp // ex. 1631246400
-  // }
+    // const getFirstDivionFixtures = async () => {
+    //   try {
+    //     var startOfToday = new Date(dateSelected); 
 
-  // const getTestData = async () => {
+    //     const getDatePlusOneDay = new Date(startOfToday.setDate(startOfToday.getDate() + 1))
+    //     console.log("Date Selected Plus One Day: "+getDatePlusOneDay)
+    //     // console.log(startOfToday)
+    //     startOfToday.setHours(0,0,0,0);
 
-  //   // const server_time = db.ServerValue.TIMESTAMP
-  //   // console.log(server_time);
+    //     var endOfToday = new Date(dateSelected);        
+    //     endOfToday.setHours(23,59,59,999);
+    //     const q = query(collection(db, "year/mLKbCVlBQRjpL9ZIjcVa/league/PAQcjUL3HZshWd8Xl1MU/match_day/xuI3Ay7X8DP5niUNpQbz/fixtures"), where('date','>=',startOfToday), where('date', '<=', endOfToday))
+    //     const data = await getDocs(q)
+    //     setFirstDivisionFixtures(
+    //         data.docs.map((doc) =>({
+    //         ...doc.data(),
+    //         id: doc.id,
+    //     })),
+    //     // setTimeout(news, 1500)
+    //   )
+    //   setRefresh(false)
+    //   } catch (err) {
+    //     setError(err.toString())
+    //   } 
+    // };
 
-  //   const todayDate = new Date();
-  //   todayDate.setDate(todayDate.getDate() - 3)
-  //   // console.log(todayDate.toLocaleDateString())
-  //   const data = await query(collection(db, "year/mLKbCVlBQRjpL9ZIjcVa/league/PAQcjUL3HZshWd8Xl1MU/match_day/xuI3Ay7X8DP5niUNpQbz/fixtures"))
-  //   const querySnapshot = getDocs(data);
-  //   querySnapshot.docs.map((doc) => 
-  //     console.log(doc.data())
-  //   )
-  // }
-
-  // useEffect(() => {
-  //     // getTestData()
-  // }, [])
-
-    //Youtube api: AIzaSyCGlc9DAUTwx_6B4S_91UjTN0msV165keU
-
-    // Search from youtube https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=1&q=Hello world in react native&key=AIzaSyCGlc9DAUTwx_6B4S_91UjTN0msV165keU'
- 
-
-    // useEffect(() => {
-    //   getFixtures();
-    //   console.log('Test');
-    // }, []);
-
-
-
-
-      function onDateSelected(date) {
-        setDateSelected(date)
-        // setFilteredMatches(firstDivisionFixtures.filter((fixture) => fixture.date === date))
-      }
+    
+    useEffect(() => {
+        // getFirstDivionFixtures();
+        setIsLoading(false);
+        // fetchFixtures();
+      }, []);
     
       function renderHorizontalDatePicker() {
         return (
@@ -79,7 +68,8 @@ const HomeScreen = ({navigation}) => {
             dayFormat={'DD'}
             monthFormat ={'MMM'}
             returnDateFormat={'YYYY-MM-DD'}
-            minDate={new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate()-7)}
+            // minDate={new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate()-7)}
+            minDate={new Date()}
             defaultSelected={new Date()}
             datePickerContainerStyle={{
               backgroundColor: COLORS.white,
@@ -90,7 +80,7 @@ const HomeScreen = ({navigation}) => {
             unSelectedTextStyle={{
               color: '#23395d'
             }}
-            onDateSelected={date => onDateSelected(date)}
+            onDateSelected={date => setDateSelected(date)}
           /> 
         </View>
         )
@@ -98,8 +88,7 @@ const HomeScreen = ({navigation}) => {
 
       function renderFirstDivisionMatches() {
 
-        const renderFirstDivisionFixtures = ({item}) => {
-          
+        const renderFirstDivisionFixtures = ({item}) => {    
           return(
             <View>
             <TouchableOpacity

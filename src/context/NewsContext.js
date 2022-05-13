@@ -2,7 +2,7 @@ import React, { createContext } from 'react'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useState, useEffect } from 'react';
 import { db, storage, app } from '../config/firebase';
-import { collection, getDocs } from 'firebase/firestore';
+import { collection, getDocs, query, orderBy } from 'firebase/firestore';
 import { NewsScreen } from '../screens';
 import { ref as sRef, getDownloadURL } from 'firebase/storage';
 
@@ -19,7 +19,10 @@ function NewsContextProvider(props){
 
 const getNews = async () => {
           try {
-            const data = await getDocs(collection(db, "news"))
+            const q = await query(collection(db, "news"), orderBy('date_inserted', 'desc'));
+            // console.log(q);
+            const data = await getDocs(q);
+            console.log(data);
               setNews(
             data.docs.map((doc) => ({
               ...doc.data(),
@@ -30,18 +33,18 @@ const getNews = async () => {
           setRefresh(false)
           } catch (err) {
             setError(err.toString())
-          }
-          
+          }   
         };
-    useEffect(() => {
+
         
+    useEffect(() => {
         setIsLoading(false);
+        setNewsFromFourth(news);
         getNews();
-        setNewsFromFourth(news)
       }, []);
       // console.log(news);
 
-    const value = { news, setNews, isLoading, newsFromFourth, error, refresh, setRefresh }
+    const value = { news, setNews, isLoading, newsFromFourth, error, refresh, setRefresh, getNews }
     return (
         <NewsContext.Provider value={value}>
             {props.children}

@@ -67,6 +67,8 @@ const NewsDetail = ({route, navigation}) => {
                 <Text style={{fontSize: 17, fontWeight: 'bold' ,color: '#212437', marginBottom: 10}}>{wholeNew?.category}</Text>
                 <Text style={{fontSize: 18, fontWeight: 'bold' ,color: COLORS.black, marginBottom: 30}}>{wholeNew?.title} </Text>
                 <Text style={{fontSize: 17, marginBottom: 20}}>{wholeNew?.desc.replace('\\n', '\n\n')} </Text>
+                <Text style={{fontSize: 17, marginBottom: 20}}>Source: <Text style={{fontSize: 15, fontWeight: 'bold'}}>{wholeNew?.source}</Text> </Text>
+
                 <Text style={{fontSize: 20, fontWeight: 'bold' ,color: '#212437', marginBottom: 15}}>Recent News</Text>
             </View>   
         </View>

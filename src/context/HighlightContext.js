@@ -2,7 +2,7 @@ import React, { createContext } from 'react'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useState, useEffect } from 'react';
 import { db, storage, app } from '../config/firebase';
-import { collection, getDocs } from 'firebase/firestore';
+import { collection, getDocs, query, orderBy } from 'firebase/firestore';
 
 export const HightlightContext = createContext();
 
@@ -12,23 +12,26 @@ function HightlightContextProvider(props){
     const [error, setError] = useState(null);
     const [refresh, setRefresh] = useState(true);
 
+    const getHighlights = async () => {
+      try {
+        // const q = await query(collection(db, "highlight"), orderBy('date_added', 'desc'));
+        const q = await query(collection(db, "highlight"), orderBy('date_added', 'desc'));
+
+        const data = await getDocs(q);
+          setHighlights(
+            data.docs.map((doc) => ({
+              ...doc.data(),
+              id: doc.id,
+            })),
+        // setTimeout(highlights, 1500)
+      )
+      setRefresh(false)
+      } catch (err) {
+        setError(err.toString())
+      } 
+    };
+
     useEffect(() => {
-        const getHighlights = async () => {
-          try {
-            const data = await getDocs(collection(db, "highlight"))
-              setHighlights(
-                data.docs.map((doc) => ({
-                  ...doc.data(),
-                  id: doc.id,
-                })),
-            // setTimeout(highlights, 1500)
-          )
-          setRefresh(false)
-          } catch (err) {
-            setError(err.toString())
-          }
-          
-        };
         setIsLoading(false);
         getHighlights();
       }, []);

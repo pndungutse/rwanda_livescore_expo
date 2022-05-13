@@ -3,9 +3,12 @@ import moment from "moment";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, {useState, useEffect, useContext} from 'react'
 import { COLORS, FONTS, icons, images, SIZES } from "../constants";
+import { db, storage, app } from '../config/firebase';
+import { collection, getDocs, query } from 'firebase/firestore';
 
 import { NewsContext } from "../context/NewsContext";
 import { MaterialIcons } from '@expo/vector-icons'; 
+import Header from "../components/Header";
 
 const NewsScreen = ({navigation}) => {
     const { news, isLoading, newsFromFourth, setNews, error, refresh, setRefresh, getNews } = useContext(NewsContext);
@@ -16,8 +19,13 @@ const NewsScreen = ({navigation}) => {
     // const [refresh, setRefresh] = useState(true);
 
 //   console.log(news);
+
+
+
   const fetchNews = () => {
-    setNews(news);
+
+    getNews();
+    // setNews(news);
     setRefresh(false);
 }
 
@@ -42,8 +50,8 @@ const NewsScreen = ({navigation}) => {
                       activeOpacity={.8}
                       
                     >
-                    <View style={{borderColor: COLORS.darkgray, borderWidth: 0.1, borderRadius: 5, marginRight: 10, marginLeft: 0, width: 450, height: 50, width: 420, height: 330}}>
-                    <View style={{marginBottom: 10, marginTop: 30, marginLeft: -27}}>
+                    <View style={{borderColor: COLORS.darkgray, borderWidth: 0.1, borderRadius: 5, marginRight: 10, marginLeft: 0, width: 450, height: 50, width: 355, height: 300}}>
+                    <View style={{marginBottom: 10, marginTop: 0, marginLeft: -27}}>
                         <Image 
                             source={{uri: item.image}}
                             resizeMode='contain'
@@ -62,14 +70,14 @@ const NewsScreen = ({navigation}) => {
                         {/* Title */}
                     
                     </View>
-                    <View style={{marginLeft: 10, marginTop: 0}}>
+                    <View style={{marginLeft: 10, marginTop: 0, marginBottom: 5}}>
                         <Text numberOfLines={2} style={{fontSize: 16, fontWeight: 'bold'}}>{item.title} </Text>
                     </View>
 
                     <View style={{marginLeft: 10, marginBottom: 8}}>
                         {/* <Text> {item.date_inserted} </Text> */}
                         {/* <Text>{new Date(item.date_inserted.seconds * 1000).toLocaleDateString("en-US")}</Text> */}
-                        <Text>{moment(item.date_inserted.toDate()).calendar()}</Text>
+                        <Text style={{fontSize: 12}}>{moment(item.date_inserted.toDate()).startOf('hour').fromNow()}</Text>
                     </View>
 
                 </View>
@@ -86,7 +94,7 @@ function renderDots() {
     const dotPosition = Animated.divide(scrollX, SIZES.width)
 
     return (
-        <View style={{ height: 30, marginTop: 10 }}>
+        <View style={{ height: 25, marginTop: 10 }}>
             <View
                 style={{
                     flexDirection: 'row',
@@ -163,6 +171,7 @@ function renderAtTopNews() {
 function renderNewsVertical() {
 
     const renderNewsVeri = ({item}) => {
+        // console.log(item.date_inserted);
         return (
 
             <TouchableOpacity
@@ -188,7 +197,7 @@ function renderNewsVertical() {
                         <View style={{width: 80, backgroundColor: COLORS.black, justifyContent: 'center', alignItems: 'center', borderRadius: 5}}>
                             <Text style={{color: COLORS.white}}> {item.category} </Text>
                         </View>
-                        <Text> {moment(item.date_inserted.toDate()).calendar()}</Text>
+                        <Text style={{fontSize: 11}}> {moment(item.date_inserted.toDate()).startOf('hour').fromNow()}</Text>
 
                     </View>
                 </View>
@@ -205,7 +214,7 @@ function renderNewsVertical() {
                 news?.length < 1 ? <View style={{flex: 1, justifyContent: 'center', alignItems: 'center', marginTop: 250}}><ActivityIndicator size='large' color='#212437' /></View>
                 :
                 <FlatList 
-                    data={news}
+                    data={news.slice(3)}
                     keyExtractor={item => `${item.id}`}
                     renderItem={renderNewsVeri}
                     showsVerticalScrollIndicator={false}
@@ -218,6 +227,7 @@ function renderNewsVertical() {
 
     return (
       <SafeAreaView>
+          <Header />
           {renderNewsVertical()}
       </SafeAreaView>
     )

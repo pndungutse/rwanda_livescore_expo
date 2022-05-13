@@ -1,12 +1,7 @@
 import React, { createContext } from 'react'
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useState, useEffect } from 'react';
-import { db, storage, app } from '../config/firebase';
+import { db} from '../config/firebase';
 import { collection, getDocs, where, query } from 'firebase/firestore';
-import { NewsScreen } from '../screens';
-import { ref as sRef, getDownloadURL } from 'firebase/storage';
-
-
 
 export const FixturesContext = createContext();
 
@@ -15,12 +10,32 @@ function FixturesContextProvider(props){
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
     const [refresh, setRefresh] = useState(true);
+    const [dateSelected, setDateSelected] = useState();
+
+    function onDateSelected(date) {
+      setDateSelected(date)
+      fetchFixtures();
+      getFirstDivionFixtures();
+      console.log("Date Selected: "+dateSelected);
+
+    }
+
+    const fetchFixtures = () => {
+      // setDateSelected(dateSelected);
+      // getFirstDivionFixtures();
+      setFirstDivisionFixtures(firstDivisionFixtures);
+      setRefresh(false);
+  }
 
     const getFirstDivionFixtures = async () => {
       try {
-        // const dateSelected = '2019-01-05'
-        const data = await getDocs(collection(db, "year/mLKbCVlBQRjpL9ZIjcVa/league/PAQcjUL3HZshWd8Xl1MU/match_day/xuI3Ay7X8DP5niUNpQbz/fixtures"))
-        // console.log(data);
+        var startOfToday = new Date(); 
+        // console.log(startOfToday)
+        startOfToday.setHours(0,0,0,0);
+        var endOfToday = new Date();        
+        endOfToday.setHours(23,59,59,999);
+        const q = query(collection(db, "year/mLKbCVlBQRjpL9ZIjcVa/league/PAQcjUL3HZshWd8Xl1MU/match_day/xuI3Ay7X8DP5niUNpQbz/fixtures"), where('date','>=',startOfToday), where('date', '<=', endOfToday))
+        const data = await getDocs(q)
         setFirstDivisionFixtures(
             data.docs.map((doc) => ({
             ...doc.data(),
@@ -34,13 +49,16 @@ function FixturesContextProvider(props){
       }
       
     };
+
     useEffect(() => {
         getFirstDivionFixtures();
         setIsLoading(false);
+        onDateSelected();
+        fetchFixtures();
       }, []);
     //   console.log(fixtures);
 
-    const value = { firstDivisionFixtures, setFirstDivisionFixtures, isLoading, error, refresh, setRefresh, getFirstDivionFixtures }
+    const value = { firstDivisionFixtures, setFirstDivisionFixtures, isLoading, setIsLoading, error, refresh, setRefresh, getFirstDivionFixtures, dateSelected, setDateSelected, onDateSelected, fetchFixtures }
     return (
         <FixturesContext.Provider value={value}>
             {props.children}

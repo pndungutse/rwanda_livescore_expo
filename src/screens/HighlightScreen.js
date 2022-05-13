@@ -1,6 +1,8 @@
 import { Text, View, StyleSheet, Image, SafeAreaView, TouchableOpacity, FlatList, Alert, Button, ActivityIndicator } from "react-native";
+import moment from "moment";
 import React, {useState, useCallback, useContext, useEffect} from 'react'
 import { HightlightContext } from '../context/HighlightContext'
+import Header from '../components/Header'
 import { COLORS, FONTS, icons, images, SIZES } from "../constants";
 import YoutubePlayer from "react-native-youtube-iframe";
 import { AntDesign } from '@expo/vector-icons'; 
@@ -33,8 +35,10 @@ const HighlightScreen = ({navigation}) => {
 function renderHeader() {
   return (
     <View style={{flexDirection: 'row', marginLeft: 10}}>
-      <MaterialIcons name="autorenew" size={22} color="black" />
-      <Text style={{...FONTS.h2, fontWeight: 'bold', marginBottom: 10, marginLeft: 5, marginTop: -5}}>Latest Highlights</Text>
+      <MaterialIcons style={{
+        marginTop: 5
+      }} name="autorenew" size={22} color="black" />
+      <Text style={{...FONTS.h2, fontWeight: 'bold', marginBottom: 10, marginLeft: 5}}>Latest Highlights</Text>
   </View>
   )
 }
@@ -114,8 +118,10 @@ function renderHeader() {
               <Text numberOfLines={2} style={{fontSize: 16, fontWeight: 'bold'}}>{item.title} </Text>
           </View>
           <View style={{marginLeft: 10, marginBottom: 8, flexDirection: 'row', justifyContent: 'space-between'}}>
-              <Text style={{fontWeight: 'bold', fontSize: 12}}>{new Date(item.date_added.seconds * 1000).toLocaleDateString("en-US")}</Text>
+              <Text style={{fontWeight: 'bold', fontSize: 12}}>{moment(item.date_added.toDate()).startOf('hour').fromNow()}</Text>
+              <Text style={{fontWeight: 'bold', fontSize: 11}}>{item.source}</Text>
               <Text style={{fontWeight: 'bold', fontSize: 11}}>{item.category}</Text>
+
           </View>
       </View>
       </TouchableOpacity>
@@ -138,7 +144,7 @@ function renderHeader() {
                     refreshing={refresh}
                     onRefresh={() => fetchHighlights()}
                     style={{
-                      marginTop: 45
+                      marginTop: 5
                     }}
                 />
     )
@@ -146,7 +152,9 @@ function renderHeader() {
 
   return (
     <SafeAreaView>
+          <Header />
           {renderHighlights()}
+          <View style={{marginBottom: 10}}></View>
       </SafeAreaView>
   )
 }
