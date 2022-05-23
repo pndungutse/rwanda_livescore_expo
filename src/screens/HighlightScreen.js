@@ -5,14 +5,20 @@ import { HightlightContext } from '../context/HighlightContext'
 import Header from '../components/Header'
 import { COLORS, FONTS, icons, images, SIZES } from "../constants";
 import YoutubePlayer from "react-native-youtube-iframe";
+import { Fontisto } from '@expo/vector-icons';
 import { AntDesign } from '@expo/vector-icons'; 
 import { MaterialIcons } from '@expo/vector-icons'; 
 import { Ionicons } from '@expo/vector-icons'; 
 import { MaterialCommunityIcons } from '@expo/vector-icons'; 
+import { Dimensions} from 'react-native'
+
 
 const HighlightScreen = ({navigation}) => {
   const { highlights, setHighlights, isLoading, error, refresh, setRefresh } = useContext(HightlightContext);
   const [playing, setPlaying] = useState(false);
+
+  const height = Dimensions.get('window').height;
+  const width = Dimensions.get('window').width
 
   
     // getYoutubeMeta('AXj3Fa1gK2I').then(meta => {
@@ -32,13 +38,62 @@ const HighlightScreen = ({navigation}) => {
     setRefresh(false);
 }
 
+function renderHighlightHeader() {
+  return (
+    <View style={{
+      flexDirection: 'row',
+      height: 52,
+      // marginBottom: 1, 
+      backgroundColor: '#212437',
+      marginTop: 30
+    }}>
+      <TouchableOpacity onPress={() => navigation.openDrawer()}
+      style={{
+        width: 50,
+        paddingLeft: 10,
+        justifyContent: 'center'
+      }}
+      >
+        <Fontisto name="nav-icon-a" size={18} color="#fff" />
+      </TouchableOpacity>
+      <View style={{
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center'
+      }}>
+        <View style={{
+          width: '70%',
+          height: '100%',
+          alignItems: 'center',
+          justifyContent: 'center',
+          marginRight: 15
+        }}>
+          <Text style={{
+            color: COLORS.white,
+            ...FONTS.h4
+          }}>Rwanda Livescore</Text>
+        </View>
+        
+      </View>
+
+      <TouchableOpacity style={{
+        marginRight: -20,
+        width: 50,
+        justifyContent: 'center'
+      }}>
+        {/* <Ionicons name="search" size={25} color="#fff" /> */}
+      </TouchableOpacity>
+    </View> 
+  )
+}
+
 function renderHeader() {
   return (
-    <View style={{flexDirection: 'row', marginLeft: 10}}>
+    <View style={{flexDirection: 'row', marginLeft: (width-(width-10))}}>
       <MaterialIcons style={{
-        marginTop: 5
+        marginTop: (width-(width-5))
       }} name="autorenew" size={22} color="black" />
-      <Text style={{...FONTS.h2, fontWeight: 'bold', marginBottom: 10, marginLeft: 5}}>Latest Highlights</Text>
+      <Text style={{...FONTS.h2, fontWeight: 'bold', marginBottom: (width-(width-10)), marginLeft: (width-(width-5))}}>Latest Highlights</Text>
   </View>
   )
 }
@@ -56,8 +111,8 @@ function renderHeader() {
             activeOpacity={.8}
             
           >
-          <View style={{borderColor: COLORS.darkgray, width: 350}}>
-            <View style={{marginBottom: 5, marginLeft: 10, marginRight: 10, borderRadius: 5}}>
+          <View style={{borderColor: COLORS.darkgray, width: width-(width - (width-20))}}>
+            <View style={{marginBottom: (width-(width-5)), marginLeft: (width-(width-10)), borderRadius: 5}}>
                 {/* <YoutubePlayer
                   height={180}
                   width={340}
@@ -72,14 +127,14 @@ function renderHeader() {
                   }}
                   
                 /> */}
-                <View style={{width: 340, height: 180}}>
+                <View style={{width:  width-(width - (width-20)), height: height/4}}>
                   <Image 
                     source={{uri: item?.thumbnail}} 
                     // resizeMode="contain"
                     
                     style={{
-                        width: 340,
-                        height: 180,
+                        width:  width-(width - (width-20)),
+                        height: height/4,
                         borderRadius: 5
                     }}
                   />
@@ -144,7 +199,8 @@ function renderHeader() {
                     refreshing={refresh}
                     onRefresh={() => fetchHighlights()}
                     style={{
-                      marginTop: 5
+                      marginTop: 5,
+                      marginBottom: width - (width - 110)
                     }}
                 />
     )
@@ -152,7 +208,8 @@ function renderHeader() {
 
   return (
     <SafeAreaView>
-          <Header />
+          {/* <Header /> */}
+          {renderHighlightHeader()}
           {renderHighlights()}
           <View style={{marginBottom: 10}}></View>
       </SafeAreaView>

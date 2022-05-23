@@ -17,7 +17,8 @@ const Header = ({navigation}) => {
                 backgroundColor: '#212437',
                 marginTop: 30
               }}>
-                <TouchableOpacity style={{
+                <TouchableOpacity onPress={() => navigation.openDrawer()}
+                style={{
                   width: 50,
                   paddingLeft: 10,
                   justifyContent: 'center'

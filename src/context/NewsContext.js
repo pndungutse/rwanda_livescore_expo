@@ -1,5 +1,5 @@
 import React, { createContext } from 'react'
-import AsyncStorage from '@react-native-async-storage/async-storage';
+// import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useState, useEffect } from 'react';
 import { db, storage, app } from '../config/firebase';
 import { collection, getDocs, query, orderBy } from 'firebase/firestore';

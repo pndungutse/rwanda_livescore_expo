@@ -3,13 +3,15 @@ import Header from '../components/Header'
 import moment from 'moment';
 import { db, storage, app } from '../config/firebase';
 import { collection, getDocs, where, query, serverTimestamp } from 'firebase/firestore';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+// import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Text, View, StyleSheet, Image, SafeAreaView, TouchableOpacity, FlatList, ActivityIndicator, SectionList } from "react-native";
 import { COLORS, FONTS } from "../constants";
 import { Ionicons, FontAwesome } from '@expo/vector-icons'; 
 import HorizontalDatePicker from '@logisticinfotech/react-native-horizontal-date-picker';
 import { Fontisto } from '@expo/vector-icons';
 import { FixturesContext } from '../context/FixturesContext';
+import { Dimensions} from 'react-native'
+
 
 const HomeScreen = ({navigation}) => {
     // const [dateSelected, setDateSelected] = useState();
@@ -47,13 +49,65 @@ const HomeScreen = ({navigation}) => {
     //     setError(err.toString())
     //   } 
     // };
+    const height = Dimensions.get('window').height;
+    const width = Dimensions.get('window').width
 
     
     useEffect(() => {
         // getFirstDivionFixtures();
+        console.log('Date Selected from screen: '+dateSelected);
         setIsLoading(false);
         // fetchFixtures();
       }, []);
+
+      function renderHeader() {
+        return (
+          <View style={{
+            flexDirection: 'row',
+            height: 52,
+            // marginBottom: 1, 
+            backgroundColor: '#212437',
+            marginTop: 30
+          }}>
+            <TouchableOpacity onPress={() => navigation.openDrawer()}
+            style={{
+              width: 50,
+              paddingLeft: 10,
+              justifyContent: 'center'
+            }}
+            >
+              <Fontisto name="nav-icon-a" size={18} color="#fff" />
+            </TouchableOpacity>
+            <View style={{
+              flex: 1,
+              alignItems: 'center',
+              justifyContent: 'center'
+            }}>
+              <View style={{
+                width: '70%',
+                height: '100%',
+                alignItems: 'center',
+                justifyContent: 'center',
+                marginRight: 15
+              }}>
+                <Text style={{
+                  color: COLORS.white,
+                  ...FONTS.h4
+                }}>Rwanda Livescore</Text>
+              </View>
+              
+            </View>
+    
+            <TouchableOpacity style={{
+              marginRight: -20,
+              width: 50,
+              justifyContent: 'center'
+            }}>
+              {/* <Ionicons name="search" size={25} color="#fff" /> */}
+            </TouchableOpacity>
+          </View> 
+        )
+      }
     
       function renderHorizontalDatePicker() {
         return (
@@ -237,6 +291,7 @@ const HomeScreen = ({navigation}) => {
                     showsVerticalScrollIndicator={false}
                     ListHeaderComponent={renderHeaderr}
                     refreshing={refresh}
+                    style={{marginBottom: width - (width - 70)}}
                     onRefresh={() => fetchFixtures()}
                   />
                   // <SectionList
@@ -251,18 +306,12 @@ const HomeScreen = ({navigation}) => {
         )
         
       }
-
-      const renderMatchess = ({item}) => {
-        return(
-          <Text>{item.home_team} - {item.away_team}</Text>
-        )
-      }
       
 
   return (
     <SafeAreaView style={{backgroundColor: COLORS.white, flex: 1}}>
-            {/* {renderHeader()} */}
-            <Header />
+            {renderHeader()}
+            {/* <Header /> */}
             <Text>{dateSelected}</Text>
 
             {renderHorizontalDatePicker()}

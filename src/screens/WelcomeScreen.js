@@ -1,7 +1,8 @@
 import React from 'react';
+// import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Text, View, Image, StyleSheet, TouchableOpacity } from 'react-native';
 import { COLORS, FONTS, images } from '../constants';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+// import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Entypo } from '@expo/vector-icons';
 
 const WelcomeScreen = ({navigation}) => {

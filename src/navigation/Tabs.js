@@ -1,5 +1,5 @@
 import React, {useState, useContext, useEffect} from "react";
-import AsyncStorage from '@react-native-async-storage/async-storage';
+// import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Text, View, Image, TouchableOpacity } from 'react-native';
 import { icons, COLORS } from '../constants';
 
@@ -135,6 +135,7 @@ const Tabs = () => {
     const [error, setError] = useState(null);
     const [refresh, setRefresh] = useState(true);
     const [textTest, setTextTest] = useState(true);
+    const [newsFirst, setNewsFirst] = useState(false);
     // const [newsFromFourth, setNewsFromFourth] = useState([]);
 
     // const testText = "Hello World";
@@ -164,7 +165,7 @@ const Tabs = () => {
         onSnapshot(documentRef, (docum) => {
             setDocument(docum.data(), docum.id);
         });
-        console.log(document?.firstNews);
+        setNewsFirst(document?.firstNews);
       }, []);
 
     return (
@@ -181,11 +182,11 @@ const Tabs = () => {
         >
             {/* <NeedsContextProvider> */}
             <Tab.Screen
-                name={document?.firstNews === true ? "Newss" : "Homee"}
-                component={document?.firstNews == true ? NewsStackScreen : HomeStackScreen}
+                name={newsFirst === true ? "Newss" : "Homee"}
+                component={newsFirst == true ? NewsStackScreen : HomeStackScreen}
                 options={{
                     tabBarIcon: ({focused}) => {
-                        if (document.firstNews === true) {
+                        if (newsFirst === true) {
                             return (
                                 <Ionicons name="newspaper-outline" size={25} color="#fff" />     
                             )
@@ -204,12 +205,12 @@ const Tabs = () => {
             
             />
             <Tab.Screen
-                name={document?.firstNews === true ? "News" : "Soccer"}
-                component={document?.firstNews === true ? HomeStackScreen : NewsStackScreen}
+                name={newsFirst === true ? "News" : "Soccer"}
+                component={newsFirst === true ? HomeStackScreen : NewsStackScreen}
                 options={{
                     tabBarIcon: ({focused}) => 
                     {
-                    if (document.firstNews === true) {
+                    if (newsFirst === true) {
                         return (
                             <Ionicons name="football" size={25} color="#fff" />     
                         )

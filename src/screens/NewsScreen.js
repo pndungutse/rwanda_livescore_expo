@@ -1,10 +1,12 @@
 import { Text, View, StyleSheet, Image, SafeAreaView, TouchableOpacity, FlatList, Animated, ScrollView, ActivityIndicator } from "react-native";
 import moment from "moment";
-import AsyncStorage from '@react-native-async-storage/async-storage';
+// import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, {useState, useEffect, useContext} from 'react'
 import { COLORS, FONTS, icons, images, SIZES } from "../constants";
+import { Dimensions} from 'react-native'
 import { db, storage, app } from '../config/firebase';
 import { collection, getDocs, query } from 'firebase/firestore';
+import { Fontisto } from '@expo/vector-icons';
 
 import { NewsContext } from "../context/NewsContext";
 import { MaterialIcons } from '@expo/vector-icons'; 
@@ -14,6 +16,8 @@ const NewsScreen = ({navigation}) => {
     const { news, isLoading, newsFromFourth, setNews, error, refresh, setRefresh, getNews } = useContext(NewsContext);
 
     const scrollX = new Animated.Value(0);
+    const height = Dimensions.get('window').height;
+    const width = Dimensions.get('window').width
     // const [news, setNews] = useState(newsData);
     // const [newsFromFourth, setNewsFromFourth] = useState(news);
     // const [refresh, setRefresh] = useState(true);
@@ -28,6 +32,55 @@ const NewsScreen = ({navigation}) => {
     // setNews(news);
     setRefresh(false);
 }
+
+function renderHeader() {
+    return (
+      <View style={{
+        flexDirection: 'row',
+        height: 52,
+        // marginBottom: 1, 
+        backgroundColor: '#212437',
+        marginTop: 30
+      }}>
+        <TouchableOpacity onPress={() => navigation.openDrawer()}
+        style={{
+          width: 50,
+          paddingLeft: 10,
+          justifyContent: 'center'
+        }}
+        >
+          <Fontisto name="nav-icon-a" size={18} color="#fff" />
+        </TouchableOpacity>
+        <View style={{
+          flex: 1,
+          alignItems: 'center',
+          justifyContent: 'center'
+        }}>
+          <View style={{
+            width: '70%',
+            height: '100%',
+            alignItems: 'center',
+            justifyContent: 'center',
+            marginRight: 15
+          }}>
+            <Text style={{
+              color: COLORS.white,
+              ...FONTS.h4
+            }}>Rwanda Livescore</Text>
+          </View>
+          
+        </View>
+
+        <TouchableOpacity style={{
+          marginRight: -20,
+          width: 50,
+          justifyContent: 'center'
+        }}>
+          {/* <Ionicons name="search" size={25} color="#fff" /> */}
+        </TouchableOpacity>
+      </View> 
+    )
+  }
 
   function renderNewsHorizontalOrg() {
     return (
@@ -50,7 +103,7 @@ const NewsScreen = ({navigation}) => {
                       activeOpacity={.8}
                       
                     >
-                    <View style={{borderColor: COLORS.darkgray, borderWidth: 0.1, borderRadius: 5, marginRight: 10, marginLeft: 0, width: 450, height: 50, width: 355, height: 300}}>
+                    <View style={{borderColor: COLORS.darkgray, borderWidth: 0.1, borderRadius: 5, marginRight: 10, marginLeft: 0, width: 450, height: 50, width: width, height: 300}}>
                     <View style={{marginBottom: 10, marginTop: 0, marginLeft: -27}}>
                         <Image 
                             source={{uri: item.image}}
@@ -78,6 +131,8 @@ const NewsScreen = ({navigation}) => {
                         {/* <Text> {item.date_inserted} </Text> */}
                         {/* <Text>{new Date(item.date_inserted.seconds * 1000).toLocaleDateString("en-US")}</Text> */}
                         <Text style={{fontSize: 12}}>{moment(item.date_inserted.toDate()).startOf('hour').fromNow()}</Text>
+                        {/* <Text style={{fontSize: 12}}>To put date</Text> */}
+
                     </View>
 
                 </View>
@@ -185,19 +240,19 @@ function renderNewsVertical() {
                     <Image 
                         source={{uri: item.image}}
                         style={{
-                            width: 160,
-                            height: 100,
+                            width: (width/2 - (width-(width-30))),
+                            height: height/8 + (width-(width-1)),
                             borderRadius: 5
                           }}
                     />
                 </View>
-                <View style={{marginLeft: 10, flex: 1}}>
-                    <Text numberOfLines={3} style={{...FONTS.body3, fontWeight:'bold', marginBottom: 10}}>{item.title} </Text>
+                <View style={{marginLeft: (width-(width-10)), flex: 1}}>
+                    <Text numberOfLines={3} style={{...FONTS.body3, fontWeight:'bold', marginBottom: (width-(width-10)), width: (width/2)}}>{item.title} </Text>
                     <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
                         <View style={{width: 80, backgroundColor: COLORS.black, justifyContent: 'center', alignItems: 'center', borderRadius: 5}}>
                             <Text style={{color: COLORS.white}}> {item.category} </Text>
                         </View>
-                        <Text style={{fontSize: 11}}> {moment(item.date_inserted.toDate()).startOf('hour').fromNow()}</Text>
+                        <Text style={{fontSize: 11, marginRight: (width-(width-25))}}> {moment(item.date_inserted.toDate()).startOf('hour').fromNow()}</Text>
 
                     </View>
                 </View>
@@ -220,6 +275,7 @@ function renderNewsVertical() {
                     showsVerticalScrollIndicator={false}
                     ListHeaderComponent={renderAtTopNews}
                     refreshing={refresh}
+                    style={{marginBottom: width - (width - 100)}}
                     onRefresh={() => fetchNews()}
                 />
     )
@@ -227,7 +283,8 @@ function renderNewsVertical() {
 
     return (
       <SafeAreaView>
-          <Header />
+          {/* <Header /> */}
+          {renderHeader()}
           {renderNewsVertical()}
       </SafeAreaView>
     )
