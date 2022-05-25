@@ -21,32 +21,30 @@ const HomeScreen = ({navigation}) => {
     const [startDate, setStartDate] = useState(new Date());
     // const { firstDivisionFixtures, setFirstDivisionFixtures, isLoading, setIsLoading, error, refresh, setRefresh, getFirstDivionFixtures, startDate, setStartDate, endDate, setEndDate, onDateSelected, fetchFixtures, testString, setTestString } = useContext(FixturesContext);
 
-    const fetchFixtures = () => {
+    function fetchFixtures() {
       // setDateSelected(dateSelected);
       // getFirstDivionFixtures();
+      // setStartDate(startDate);
+      // console.log('Date now is: '+startDate);
+      // setFirstDivisionFixtures([]);
+      // setIsLoading(true);
+      getFirstDivionFixtures(startDate);
       setFirstDivisionFixtures(firstDivisionFixtures);
       setRefresh(false);
   }
-        const startDateDate = new Date(startDate);
+
+  const getFirstDivionFixturesFirstTime = async () => {
+    try {
+        const startDateDate = new Date();
+        console.log('Date selected: '+startDateDate);
         const dateSearched1 = startDateDate;
-        const endDateDate = new Date(startDate)
+        const endDateDate = new Date();
         const dateSearched2 = endDateDate;
-
-
-    const getFirstDivionFixtures = async (date) => {
-      try {
-
-        console.log("Start Selected from Home: "+startDate);
-        // console.log("End Selected from context: "+endDate);
-        setStartDate(date);
-
-
-        
-        // dateSearched1.setDate(dateSearched1.getDate())
-        // dateSearched2.setDate(dateSearched2.getDate())
 
         dateSearched1.setHours(0,0,0,0);
         dateSearched2.setHours(23,59,59,999);
+        console.log('Date converted: '+dateSearched1);
+
 
         const q = query(collection(db, "year/mLKbCVlBQRjpL9ZIjcVa/league/PAQcjUL3HZshWd8Xl1MU/match_day/xuI3Ay7X8DP5niUNpQbz/fixtures"), where('date','>=',dateSearched1), where('date', '<=', dateSearched2))
         const data = await getDocs(q);
@@ -59,6 +57,54 @@ const HomeScreen = ({navigation}) => {
       )
       setRefresh(false);
       setIsLoading(false);
+      // }
+      
+    } catch (err) {
+      setError(err.toString())
+    } 
+  };
+
+
+
+    const getFirstDivionFixtures = async (date) => {
+      try {
+        if (date==startDate) {
+          setIsLoading(false);
+        }else {
+          setFirstDivisionFixtures([]);
+          setIsLoading(true);
+          const startDateDate = new Date(date);
+          console.log('Date selected: '+startDateDate);
+          const dateSearched1 = startDateDate;
+          const endDateDate = new Date(date);
+          const dateSearched2 = endDateDate;
+          // console.log("Start Selected from Home: "+startDate);
+          // console.log("End Selected from context: "+endDate);
+          // setStartDate(date);
+
+
+          
+          // dateSearched1.setDate(dateSearched1.getDate())
+          // dateSearched2.setDate(dateSearched2.getDate())
+
+          dateSearched1.setHours(0,0,0,0);
+          dateSearched2.setHours(23,59,59,999);
+          console.log('Date converted: '+dateSearched1);
+
+
+          const q = query(collection(db, "year/mLKbCVlBQRjpL9ZIjcVa/league/PAQcjUL3HZshWd8Xl1MU/match_day/xuI3Ay7X8DP5niUNpQbz/fixtures"), where('date','>=',dateSearched1), where('date', '<=', dateSearched2))
+          const data = await getDocs(q);
+          setFirstDivisionFixtures(
+              data.docs.map((doc) => ({
+              ...doc.data(),
+              id: doc.id,
+          })),
+          // setTimeout(news, 1500)
+        )
+        setRefresh(false);
+        setIsLoading(false);
+        }
+        
       } catch (err) {
         setError(err.toString())
       } 
@@ -66,17 +112,35 @@ const HomeScreen = ({navigation}) => {
 
     const height = Dimensions.get('window').height;
     const width = Dimensions.get('window').width
-
     
-    const onDateChange = (date) => {
-      setStartDate(date);
-      getFirstDivionFixtures();
-    }
+    // const onDateChange = (date) => {
+    //   console.log('My immediate date: '+date);
+
+    //   // setStartDate(date);
+    //   console.log("Date the arleady assigned to date selected to: "+startDate)
+    //   if (date == startDate) {
+    //     setIsLoading(false);
+    //     getFirstDivionFixtures();
+    //     console.log('Date changed to: '+startDate);
+    //     // console.log("They are the same");
+    //   }else {
+    //     setIsLoading(true);
+    //     setFirstDivisionFixtures([]);
+    //     setStartDate(date);
+    //     getFirstDivionFixtures();
+    //     console.log('Date changed to: '+startDate);
+    //     // setIsLoading(false);
+    //   }
+      
+    // }
 
     useEffect(() => {
       // getFirstDivionFixtures();
       // onDateSelected();
-      fetchFixtures();
+      // setIsLoading(true);
+      // fetchFixtures();
+      getFirstDivionFixturesFirstTime();
+      // getFirstDivionFixtures(startDate);
       }, []);
 
       function renderHeader() {
@@ -141,8 +205,9 @@ const HomeScreen = ({navigation}) => {
             dayFormat={'DD'}
             monthFormat ={'MMM'}
             returnDateFormat={'YYYY-MM-DD'}
-            // minDate={new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate()-7)}
-            minDate={new Date()}
+            minDate={new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate()-7)} 
+            maxDate={new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate()+7)} 
+            // minDate={new Date()}
             defaultSelected={new Date()}
             datePickerContainerStyle={{
               backgroundColor: COLORS.white,
@@ -153,7 +218,10 @@ const HomeScreen = ({navigation}) => {
             unSelectedTextStyle={{
               color: '#23395d'
             }}
-            onDateSelected={date => getFirstDivionFixtures(date)}
+            onDateSelected={date => {
+              setStartDate(date);
+              getFirstDivionFixtures(date);
+            }}
           /> 
         </View>
         )
@@ -300,8 +368,9 @@ const HomeScreen = ({navigation}) => {
           }
         return ( 
           isLoading ? <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}><ActivityIndicator size='large' color='#212437' /></View>
-                    : error ? <View><Text>{error}</Text></View>
+                    : error ? <View style={{justifyContent: 'center', alignItems: 'center', marginTop: 15}}><Text style={{marginBottom: 10}}>{error}</Text>Refresh<Text>{error}</Text></View>
                     // : firstDivisionFixtures?.length < 1 ? <View style={{justifyContent: 'center', alignItems: 'center', marginTop: 10}}><Text style={{color: '#6d071a'}}>No fixture available at this date</Text></View>
+                    // : firstDivisionFixtures.length  == 0 ? <View style={{justifyContent: 'center', alignItems: 'center', marginTop: 15}}><Text style={{color: 'red'}}>No fixtures available today</Text></View>
                     :
                     <FlatList 
                     data={firstDivisionFixtures}

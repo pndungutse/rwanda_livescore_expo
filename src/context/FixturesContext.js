@@ -36,9 +36,9 @@ function FixturesContextProvider(props){
 
     const getFirstDivionFixtures = async () => {
       try {
-        console.log("Start Selected from context: "+startDate);
-        console.log("End Selected from context: "+endDate);
-        console.log("My Test String in: "+testString);
+        // console.log("Start Selected from context: "+startDate);
+        // console.log("End Selected from context: "+endDate);
+        // console.log("My Test String in: "+testString);
 
         
         dateSearched1.setDate(dateSearched1.getDate())
