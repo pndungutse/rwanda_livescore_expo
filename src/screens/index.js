@@ -7,6 +7,7 @@ import StatisticScreen from "./StatisticScreen";
 import HighlightDetail from "./HighlightDetail";
 import MatchDetail from "./MatchDetail";
 import SkeletonTestScreen from "./SkeletonTestScreen";
+import StatisticsScreen from "./StatisticsScreen";
 
 export {
     WelcomeScreen,
@@ -17,5 +18,6 @@ export {
     StatisticScreen,
     HighlightDetail,
     MatchDetail,
-    SkeletonTestScreen
+    SkeletonTestScreen,
+    StatisticsScreen
 }   

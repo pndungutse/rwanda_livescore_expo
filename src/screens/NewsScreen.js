@@ -3,7 +3,7 @@ import moment from "moment";
 // import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, {useState, useEffect, useContext} from 'react'
 import { COLORS, FONTS, icons, images, SIZES } from "../constants";
-import { Dimensions} from 'react-native'
+import { Dimensions} from 'react-native';
 import { db, storage, app } from '../config/firebase';
 import { collection, getDocs, query } from 'firebase/firestore';
 import { Fontisto } from '@expo/vector-icons';

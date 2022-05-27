@@ -13,7 +13,7 @@ import Svg, { Path } from "react-native-svg";
 import { db, storage, app } from '../config/firebase';
 import { collection, getDocs, query, orderBy, doc, getDoc, onSnapshot } from 'firebase/firestore';
 
-import { HomeScreen, NewsScreen, NewsDetail, HighlightScreen, StatisticScreen, HighlightDetail, MatchDetail, SkeletonTestScreen } from "../screens";
+import { HomeScreen, NewsScreen, NewsDetail, HighlightScreen, StatisticScreen, HighlightDetail, MatchDetail, SkeletonTestScreen, StatisticsScreen } from "../screens";
 // import NewsContextProvider from "../context/NewsContext";
 // import HightlightContextProvider from "../context/HighlightContext";
 import { NewsContextProvider, HightlightContextProvider, FixturesContextProvider } from "../context";
@@ -71,7 +71,7 @@ const StatisticStackScreen = () => (
                 headerShown: false
             }}
         >
-        <StatisticsStack.Screen name="StatisticsScreen" component={StatisticScreen} />
+        <StatisticsStack.Screen name="StatisticsScreen" component={StatisticsScreen} />
         {/* <StatisticsStack.Screen name="HighlightDetail" component={HighlightDetail} /> */}
         </StatisticsStack.Navigator>
 )
