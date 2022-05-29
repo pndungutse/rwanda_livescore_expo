@@ -1,14 +1,19 @@
 import { StyleSheet, Text, View, Image, ScrollView, TouchableOpacity, FlatList } from 'react-native'
-import React, {useState, useEffect} from 'react'
+import React, {useState, useEffect, useContext} from 'react'
 import { COLORS, FONTS, SIZES } from '../constants'
 import { Fontisto } from '@expo/vector-icons';
 // import { Divider } from 'react-native-elemets';
 import { Divider } from 'react-native-elements';
 import { Dimensions} from 'react-native';
+import { StatisticsContext } from '../context/StatisticsContext';
+import { getDoc, doc, onSnapshot } from 'firebase/firestore';
+import { db } from '../config/firebase';
+import { async } from '@firebase/util';
 
 
 
 const StatisticsScreen = () => {
+    const { firstDivisionStandings, setFirstDivisionStandings, isLoading, setIsLoading, error, refresh, setRefresh, getFirstDivionStandings} = useContext(StatisticsContext);
     const navigationData = [
         {
             id: 1,
@@ -24,7 +29,7 @@ const StatisticsScreen = () => {
 
     const [navigations, setNavigations] = useState(navigationData);
     const [selectedNavigation, setSelectedNavigation] = useState(navigationData[0]);
-
+    // const [team, setTeam] = useState();
 
     function renderHeader() {
         return (
@@ -74,6 +79,63 @@ const StatisticsScreen = () => {
           </View> 
         )
       }
+
+    
+    function renderStandings() {
+
+        // const renderTeamName = (team_id) => {
+            
+        //     const docRef = doc(db, "teams", `${team_id}`);
+        //     getDoc(docRef).then((doc) => {
+        //         console.log(doc.data(), doc.id)
+        //     })
+            // console.log(docSnap);
+            // console.log("Document data:", docSnap.data());
+        
+        
+    //     return (
+    //         <Text style={{width: (width/2) - 30}}>Kiyovu Sport</Text>
+    //     )
+    // }
+
+        
+        const renderFirstDivisionStandings = ({item}) => {  
+
+            const docRef = doc(db, "teams", `${item.id}`);
+            // getDoc(docRef).then((doc) => {
+            //     console.log(doc.data(), doc.id)
+            // })
+            return (
+                <View style={{marginBottom: 10}}>
+                    
+                    {/* Table Content */}
+                    <View style={{flexDirection: 'row', marginLeft: 7, marginBottom: 5}}>
+                        
+                        <Text style={{width: (width/2) - 30}}>Kiyovu Sport</Text>
+                        {/* {renderTeamName(item.id)} */}
+                        <Text style={{width: 35}}>{item.matches}</Text>
+                        <Text style={{width: 35}}>{item.wins}</Text>
+                        <Text style={{width: 35}}>{item.draws}</Text>
+                        <Text style={{width: 35}}>{item.looses}</Text>
+                        <Text style={{width: 35}}>{item.goals_diff}</Text>
+                        <Text>{item.points}</Text>
+                    </View>
+                </View>
+            )
+        }
+        return (
+            <FlatList 
+                    data={firstDivisionStandings}
+                    keyExtractor={item => `${item.id}`}
+                    renderItem={renderFirstDivisionStandings}
+                    showsVerticalScrollIndicator={false}
+                    // ListHeaderComponent={renderHeaderr}
+                    // refreshing={refresh}
+                    // style={{marginBottom: width - (width - 70)}}
+                    // onRefresh={() => fetchFixtures()}
+                  />
+        )
+    }
     
       function onSelectNavigation(item) {
         setSelectedNavigation(item)
@@ -121,6 +183,7 @@ const StatisticsScreen = () => {
 
     function renderNavigationContent() {
         if(selectedNavigation?.id == 1) {
+            
             return (
                
             <View>
@@ -135,70 +198,10 @@ const StatisticsScreen = () => {
                         <Text style={{width: 35}}>GD</Text>
                         <Text>Pts</Text>
                     </View>
-                <View style={{marginBottom: 10}}>
                     {/* Table Content */}
-                    <View style={{flexDirection: 'row', marginLeft: 7, marginBottom: 5}}>
-                        <Text style={{width: (width/2) - 30}}>APR FC</Text>
-                        <Text style={{width: 35}}>20</Text>
-                        <Text style={{width: 35}}>26</Text>
-                        <Text style={{width: 35}}>3</Text>
-                        <Text style={{width: 35}}>1</Text>
-                        <Text style={{width: 35}}>6</Text>
-                        <Text>62</Text>
-                    </View>
-                </View>
-                <View style={{marginBottom: 10}}>
-                    
-                    {/* Table Content */}
-                    <View style={{flexDirection: 'row', marginLeft: 7, marginBottom: 5}}>
-                        <Text style={{width: (width/2) - 30}}>Kiyovu Sport</Text>
-                        <Text style={{width: 35}}>20</Text>
-                        <Text style={{width: 35}}>26</Text>
-                        <Text style={{width: 35}}>3</Text>
-                        <Text style={{width: 35}}>1</Text>
-                        <Text style={{width: 35}}>8</Text>
-                        <Text>60</Text>
-                    </View>
-                </View>
-                <View style={{marginBottom: 10}}>
-                    
-                    {/* Table Content */}
-                    <View style={{flexDirection: 'row', marginLeft: 7, marginBottom: 5}}>
-                        <Text style={{width: (width/2) - 30}}>AS Kigali</Text>
-                        <Text style={{width: 35}}>20</Text>
-                        <Text style={{width: 35}}>26</Text>
-                        <Text style={{width: 35}}>3</Text>
-                        <Text style={{width: 35}}>1</Text>
-                        <Text style={{width: 35}}>-3</Text>
-                        <Text>48</Text>
-                    </View>
-                </View>
-                <View style={{marginBottom: 10}}>
-                    
-                    {/* Table Content */}
-                    <View style={{flexDirection: 'row', marginLeft: 7, marginBottom: 5}}>
-                        <Text style={{width: (width/2) - 30}}>Rayon Sport</Text>
-                        <Text style={{width: 35}}>20</Text>
-                        <Text style={{width: 35}}>26</Text>
-                        <Text style={{width: 35}}>3</Text>
-                        <Text style={{width: 35}}>1</Text>
-                        <Text style={{width: 35}}>-1</Text>
-                        <Text>62</Text>
-                    </View>
-                </View>
-                <View style={{marginBottom: 10}}>
-                    
-                    {/* Table Content */}
-                    <View style={{flexDirection: 'row', marginLeft: 7, marginBottom: 5}}>
-                        <Text style={{width: (width/2) - 30}}>Bugesera FC</Text>
-                        <Text style={{width: 35}}>20</Text>
-                        <Text style={{width: 35}}>26</Text>
-                        <Text style={{width: 35}}>3</Text>
-                        <Text style={{width: 35}}>1</Text>
-                        <Text style={{width: 35}}>0</Text>
-                        <Text>62</Text>
-                    </View>
-                </View>
+
+                    {renderStandings()}
+
             </View>
             )
         }else if(selectedNavigation?.id == 2) {
@@ -270,12 +273,12 @@ const StatisticsScreen = () => {
     }
 
     return (
-        <ScrollView style={{backgroundColor: COLORS.white, flex: 1}}>
+        <View style={{backgroundColor: COLORS.white, flex: 1}}>
             {renderHeader()}
             {renderSelectSeason()}
             {renderMainCategories()}
-            {renderNavigationContent(   )}
-        </ScrollView>
+            {renderNavigationContent()}
+        </View>
     )
 }
 export default StatisticsScreen;

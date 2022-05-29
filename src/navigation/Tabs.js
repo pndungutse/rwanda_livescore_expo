@@ -16,7 +16,7 @@ import { collection, getDocs, query, orderBy, doc, getDoc, onSnapshot } from 'fi
 import { HomeScreen, NewsScreen, NewsDetail, HighlightScreen, StatisticScreen, HighlightDetail, MatchDetail, SkeletonTestScreen, StatisticsScreen } from "../screens";
 // import NewsContextProvider from "../context/NewsContext";
 // import HightlightContextProvider from "../context/HighlightContext";
-import { NewsContextProvider, HightlightContextProvider, FixturesContextProvider } from "../context";
+import { NewsContextProvider, HightlightContextProvider, FixturesContextProvider, StatisticsContextProvider } from "../context";
 
 const Tab = createBottomTabNavigator();
 
@@ -66,6 +66,7 @@ const HighlightsStackScreen = () => (
     </HightlightContextProvider>
 )
 const StatisticStackScreen = () => (
+        <StatisticsContextProvider>
         <StatisticsStack.Navigator
             screenOptions={{
                 headerShown: false
@@ -74,6 +75,7 @@ const StatisticStackScreen = () => (
         <StatisticsStack.Screen name="StatisticsScreen" component={StatisticsScreen} />
         {/* <StatisticsStack.Screen name="HighlightDetail" component={HighlightDetail} /> */}
         </StatisticsStack.Navigator>
+        </StatisticsContextProvider>
 )
 const TabBarCustomButton = ({ accessibilityState, children, onPress }) => {
     var isSelected = accessibilityState.selected

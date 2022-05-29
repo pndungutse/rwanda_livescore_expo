@@ -22,7 +22,7 @@ const getNews = async () => {
             const q = await query(collection(db, "news"), orderBy('date_inserted', 'desc'));
             // console.log(q);
             const data = await getDocs(q);
-            console.log(data);
+            // console.log(data);
               setNews(
             data.docs.map((doc) => ({
               ...doc.data(),
