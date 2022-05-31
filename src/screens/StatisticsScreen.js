@@ -6,10 +6,10 @@ import { Fontisto } from '@expo/vector-icons';
 import { Divider } from 'react-native-elements';
 import { Dimensions} from 'react-native';
 import { StatisticsContext } from '../context/StatisticsContext';
-import { getDoc, doc, onSnapshot } from 'firebase/firestore';
+// import { getDoc, doc, onSnapshot } from 'firebase/firestore';
 import { db } from '../config/firebase';
 import { async } from '@firebase/util';
-
+import { collection, getDocs, where, query, serverTimestamp, Timestamp, getDoc, doc, onSnapshot, limit } from 'firebase/firestore';
 
 
 const StatisticsScreen = () => {
@@ -29,7 +29,12 @@ const StatisticsScreen = () => {
 
     const [navigations, setNavigations] = useState(navigationData);
     const [selectedNavigation, setSelectedNavigation] = useState(navigationData[0]);
-    // const [team, setTeam] = useState();
+    const [team, setTeam] = useState({});
+
+    useEffect(() => {
+        renderTeamName();
+        // console.log(team);
+    }, [])
 
     function renderHeader() {
         return (
@@ -79,40 +84,47 @@ const StatisticsScreen = () => {
           </View> 
         )
       }
-
     
+      const renderTeamName = (team_id) => {
+            
+        // const docRef = doc(db, "teams", `${team_id}`);
+        // getDoc(docRef).then((doc) => {
+        //     console.log(doc.data(), doc.id)
+        // })
+        // console.log(docSnap);
+        // console.log("Document data:", docSnap.data());
+
+        // const docRef = doc(db, "teams", `${team_id}`);
+        const docRef = doc(db, `/year/mLKbCVlBQRjpL9ZIjcVa/league/PAQcjUL3HZshWd8Xl1MU/standings/${team_id}`)
+        // const q = query(collection(db, "year/mLKbCVlBQRjpL9ZIjcVa/league/PAQcjUL3HZshWd8Xl1MU/match_day/xuI3Ay7X8DP5niUNpQbz/fixtures"), where('date','>=',dateSearched1), where('date', '<=', dateSearched2))
+        
+        getDoc(docRef).then((doc) => {
+            setTeam(
+                ...doc.data(),
+                doc.id
+            )
+            // console.log(doc.data(), doc.id);
+        })
+        
+        // setTimeout(renderTeamName, 500);
+    return (
+        <Text style={{width: (width/2) - 30}}>Kiyovu Sport</Text>
+        )
+    }
+
     function renderStandings() {
 
-        // const renderTeamName = (team_id) => {
-            
-        //     const docRef = doc(db, "teams", `${team_id}`);
-        //     getDoc(docRef).then((doc) => {
-        //         console.log(doc.data(), doc.id)
-        //     })
-            // console.log(docSnap);
-            // console.log("Document data:", docSnap.data());
         
-        
-    //     return (
-    //         <Text style={{width: (width/2) - 30}}>Kiyovu Sport</Text>
-    //     )
-    // }
 
-        
         const renderFirstDivisionStandings = ({item}) => {  
-
-            const docRef = doc(db, "teams", `${item.id}`);
-            // getDoc(docRef).then((doc) => {
-            //     console.log(doc.data(), doc.id)
-            // })
             return (
                 <View style={{marginBottom: 10}}>
                     
                     {/* Table Content */}
                     <View style={{flexDirection: 'row', marginLeft: 7, marginBottom: 5}}>
                         
-                        <Text style={{width: (width/2) - 30}}>Kiyovu Sport</Text>
-                        {/* {renderTeamName(item.id)} */}
+                        {/* <Text style={{width: (width/2) - 30}}>Kiyovu Sport</Text> */}
+                        {renderTeamName(item.id)}
                         <Text style={{width: 35}}>{item.matches}</Text>
                         <Text style={{width: 35}}>{item.wins}</Text>
                         <Text style={{width: 35}}>{item.draws}</Text>

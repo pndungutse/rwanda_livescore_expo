@@ -24,7 +24,7 @@ function NeedsContextProvider(props){
           const documentRef = await doc(db, 'news', 'HvXow1htm69a0pqFucm5');
           // console.log(q);
           const data = await getDoc(documentRef);
-          console.log(data);
+          // console.log(data);
         //     setNews(
         //   data.docs.map((doc) => ({
         //     ...doc.data(),

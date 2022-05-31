@@ -86,7 +86,7 @@ const TabBarCustomButton = ({ accessibilityState, children, onPress }) => {
                     <View style={{ flex: 1, backgroundColor: '#212437' }}></View>
                     <Svg
                         width={70}
-                        height={61}
+                        height={60}
                         viewBox="3 2 69 58"
                     >
                         <Path
@@ -111,6 +111,11 @@ const TabBarCustomButton = ({ accessibilityState, children, onPress }) => {
                 >
                     {children}
                 </TouchableOpacity>
+                {/* <View style={{marginLeft: }}>
+                    <TouchableOpacity>
+                        <Text>Refresh</Text>
+                    </TouchableOpacity>
+                </View> */}
             </View>
         )
     }else {
@@ -171,109 +176,112 @@ const Tabs = () => {
       }, []);
 
     return (
-        <Tab.Navigator  
-            screenOptions={{
-                headerShown: false,
-                tabBarShowLabel: false,
-                tabBarStyle: {
-                    borderTopWidth: 0,
-                    backgroundColor: 'transparent',
-                    elevation: 0
-                },  
-            }}
-        >
-            {/* <NeedsContextProvider> */}
-            <Tab.Screen
-                name={newsFirst === true ? "Newss" : "Homee"}
-                component={newsFirst == true ? NewsStackScreen : HomeStackScreen}
-                options={{
-                    tabBarIcon: ({focused}) => {
+        // <View>
+            <Tab.Navigator  
+                screenOptions={{
+                    headerShown: false,
+                    tabBarShowLabel: false,
+                    tabBarStyle: {
+                        borderTopWidth: 0,
+                        backgroundColor: 'transparent',
+                        elevation: 0
+                    },  
+                    
+                }}
+            >
+                {/* <NeedsContextProvider> */}
+                <Tab.Screen
+                    name={newsFirst === true ? "Newss" : "Homee"}
+                    component={newsFirst == true ? NewsStackScreen : HomeStackScreen}
+                    options={{
+                        tabBarIcon: ({focused}) => {
+                            if (newsFirst === true) {
+                                return (
+                                    <Ionicons name="newspaper-outline" size={25} color="#fff" />     
+                                )
+                            }else {
+                                return (
+                                    <Ionicons name="football" size={25} color="#fff" />
+                                )
+                            }
+                        },
+                        tabBarButton: (props) => (
+                            <TabBarCustomButton 
+                                {...props}
+                            />
+                        )
+                    }}
+                
+                />
+                <Tab.Screen
+                    name={newsFirst === true ? "News" : "Soccer"}
+                    component={newsFirst === true ? HomeStackScreen : NewsStackScreen}
+                    options={{
+                        tabBarIcon: ({focused}) => 
+                        {
                         if (newsFirst === true) {
                             return (
-                                <Ionicons name="newspaper-outline" size={25} color="#fff" />     
+                                <Ionicons name="football" size={25} color="#fff" />     
                             )
                         }else {
                             return (
-                                <Ionicons name="football" size={25} color="#fff" />
+                                <Ionicons name="newspaper-outline" size={25} color="#fff" />
                             )
                         }
                     },
-                    tabBarButton: (props) => (
-                        <TabBarCustomButton 
-                            {...props}
-                        />
-                    )
-                }}
-            
-            />
-            <Tab.Screen
-                name={newsFirst === true ? "News" : "Soccer"}
-                component={newsFirst === true ? HomeStackScreen : NewsStackScreen}
-                options={{
-                    tabBarIcon: ({focused}) => 
-                    {
-                    if (newsFirst === true) {
-                        return (
-                            <Ionicons name="football" size={25} color="#fff" />     
+                        tabBarButton: (props) => (
+                            <TabBarCustomButton 
+                                {...props}
+                            />
                         )
-                    }else {
-                        return (
-                            <Ionicons name="newspaper-outline" size={25} color="#fff" />
+                    }}
+                />
+                <Tab.Screen
+                    name="Highlights"
+                    component={HighlightsStackScreen}
+                    options={{
+                        tabBarIcon: ({focused}) => (
+                            <Ionicons name="videocam-outline" size={27} color="#fff" />   
+                        ),
+                        tabBarButton: (props) => (
+                            <TabBarCustomButton 
+                                {...props}
+                            />
                         )
-                    }
-                },
-                    tabBarButton: (props) => (
-                        <TabBarCustomButton 
-                            {...props}
-                        />
-                    )
-                }}
-            />
-            <Tab.Screen
-                name="Highlights"
-                component={HighlightsStackScreen}
-                options={{
-                    tabBarIcon: ({focused}) => (
-                        <Ionicons name="videocam-outline" size={27} color="#fff" />   
-                    ),
-                    tabBarButton: (props) => (
-                        <TabBarCustomButton 
-                            {...props}
-                        />
-                    )
-                }}
-            />
-            <Tab.Screen
-                name="Statistics"
-                component={StatisticStackScreen}
-                options={{
-                    tabBarIcon: ({focused}) => (
-                        <FontAwesome name="area-chart" size={25} color="#fff" />
-                    ),
-                    tabBarButton: (props) => (
-                        <TabBarCustomButton 
-                            {...props}
-                        />
-                    )
-                }}
-            />
-            
-            <Tab.Screen
-                name="Settings"
-                component={SkeletonTestScreen}
-                options={{
-                    tabBarIcon: ({focused}) => (
-                        <EvilIcons name="refresh" size={30} color="#fff" />
-                    ),
-                    tabBarButton: (props) => (
-                        <TabBarCustomButton 
-                            {...props}
-                        />
-                    )
-                }}
-            />
-        {/* </NeedsContextProvider> */}
-        </Tab.Navigator>
+                    }}
+                />
+                <Tab.Screen
+                    name="Statistics"
+                    component={StatisticStackScreen}
+                    options={{
+                        tabBarIcon: ({focused}) => (
+                            <FontAwesome name="area-chart" size={25} color="#fff" />
+                        ),
+                        tabBarButton: (props) => (
+                            <TabBarCustomButton 
+                                {...props}
+                            />
+                        )
+                    }}
+                />
+                
+                {/* <Tab.Screen
+                    name="Settings"
+                    component={SkeletonTestScreen}
+                    options={{
+                        tabBarIcon: ({focused}) => (
+                            <EvilIcons name="refresh" size={30} color="#fff" />
+                        ),
+                        tabBarButton: (props) => (
+                            <TabBarCustomButton 
+                                {...props}
+                            />
+                        )
+                    }}
+                /> */}
+            {/* </NeedsContextProvider> */}
+            </Tab.Navigator>
+        // </View>
     )
 }
 export default Tabs;

@@ -6,7 +6,8 @@ import { collection, getDocs, where, query, serverTimestamp } from 'firebase/fir
 // import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Text, View, StyleSheet, Image, SafeAreaView, TouchableOpacity, FlatList, ActivityIndicator, SectionList } from "react-native";
 import { COLORS, FONTS } from "../constants";
-import { Ionicons, FontAwesome } from '@expo/vector-icons'; 
+import { Ionicons, FontAwesome, EvilIcons } from '@expo/vector-icons'; 
+
 import HorizontalDatePicker from '@logisticinfotech/react-native-horizontal-date-picker';
 import { Fontisto } from '@expo/vector-icons';
 import { FixturesContext } from '../context/FixturesContext';
@@ -33,17 +34,23 @@ const HomeScreen = ({navigation}) => {
       setRefresh(false);
   }
 
+  const refreshing = () => {
+    console.log(refresh);
+    getFirstDivionFixtures(startDate);
+    console.log(refresh);
+  }
+
   const getFirstDivionFixturesFirstTime = async () => {
     try {
         const startDateDate = new Date();
-        console.log('Date selected: '+startDateDate);
+        // console.log('Date selected: '+startDateDate);
         const dateSearched1 = startDateDate;
         const endDateDate = new Date();
         const dateSearched2 = endDateDate;
 
         dateSearched1.setHours(0,0,0,0);
         dateSearched2.setHours(23,59,59,999);
-        console.log('Date converted: '+dateSearched1);
+        // console.log('Date converted: '+dateSearched1);
 
 
         const q = query(collection(db, "year/mLKbCVlBQRjpL9ZIjcVa/league/PAQcjUL3HZshWd8Xl1MU/match_day/xuI3Ay7X8DP5niUNpQbz/fixtures"), where('date','>=',dateSearched1), where('date', '<=', dateSearched2))
@@ -74,7 +81,7 @@ const HomeScreen = ({navigation}) => {
           setFirstDivisionFixtures([]);
           setIsLoading(true);
           const startDateDate = new Date(date);
-          console.log('Date selected: '+startDateDate);
+          // console.log('Date selected: '+startDateDate);
           const dateSearched1 = startDateDate;
           const endDateDate = new Date(date);
           const dateSearched2 = endDateDate;
@@ -89,7 +96,7 @@ const HomeScreen = ({navigation}) => {
 
           dateSearched1.setHours(0,0,0,0);
           dateSearched2.setHours(23,59,59,999);
-          console.log('Date converted: '+dateSearched1);
+          // console.log('Date converted: '+dateSearched1);
 
 
           const q = query(collection(db, "year/mLKbCVlBQRjpL9ZIjcVa/league/PAQcjUL3HZshWd8Xl1MU/match_day/xuI3Ay7X8DP5niUNpQbz/fixtures"), where('date','>=',dateSearched1), where('date', '<=', dateSearched2))
@@ -112,35 +119,9 @@ const HomeScreen = ({navigation}) => {
 
     const height = Dimensions.get('window').height;
     const width = Dimensions.get('window').width
-    
-    // const onDateChange = (date) => {
-    //   console.log('My immediate date: '+date);
-
-    //   // setStartDate(date);
-    //   console.log("Date the arleady assigned to date selected to: "+startDate)
-    //   if (date == startDate) {
-    //     setIsLoading(false);
-    //     getFirstDivionFixtures();
-    //     console.log('Date changed to: '+startDate);
-    //     // console.log("They are the same");
-    //   }else {
-    //     setIsLoading(true);
-    //     setFirstDivisionFixtures([]);
-    //     setStartDate(date);
-    //     getFirstDivionFixtures();
-    //     console.log('Date changed to: '+startDate);
-    //     // setIsLoading(false);
-    //   }
-      
-    // }
 
     useEffect(() => {
-      // getFirstDivionFixtures();
-      // onDateSelected();
-      // setIsLoading(true);
-      // fetchFixtures();
       getFirstDivionFixturesFirstTime();
-      // getFirstDivionFixtures(startDate);
       }, []);
 
       function renderHeader() {
@@ -379,7 +360,7 @@ const HomeScreen = ({navigation}) => {
                     showsVerticalScrollIndicator={false}
                     ListHeaderComponent={renderHeaderr}
                     refreshing={refresh}
-                    style={{marginBottom: width - (width - 70)}}
+                    // style={{marginBottom: width - (width - )}}
                     onRefresh={() => fetchFixtures()}
                   />
                   // <SectionList
@@ -399,21 +380,19 @@ const HomeScreen = ({navigation}) => {
   return (
     <SafeAreaView style={{backgroundColor: COLORS.white, flex: 1}}>
             {renderHeader()}
-            {/* <Header /> */}
-            <Text>{moment(startDate).format('DD-MM-YYYY')}</Text>
-
+            {/* <Text>{moment(startDate).format('DD-MM-YYYY')}</Text> */}
             {renderHorizontalDatePicker()}
             {renderFirstDivisionMatches()}
-            
-            {/* <FlatList 
-                    data={fixtures}
-                    keyExtractor={item => `${item.id}`}
-                    renderItem={renderMatchess}
-                    showsVerticalScrollIndicator={false}
-                    // ListHeaderComponent={renderHeaderr}
-                    refreshing={refresh}
-                    onRefresh={() => fetchFixtures()}
-                  /> */}
+            <View style={{justifyContent: 'center', alignItems: 'flex-end', marginBottom: 0, backgroundColor: '#fff'}}>
+              <TouchableOpacity onPress={() => {
+                setRefresh(!!!refresh),
+                refreshing()
+                }}>
+                {/* <Text style={{color: '#000000'}}>Refresh</Text> */}
+                <EvilIcons name="refresh" size={40} color="#000" style={{fontSize: 40}}/>
+              </TouchableOpacity>
+
+            </View>
         </SafeAreaView>
   )
 }

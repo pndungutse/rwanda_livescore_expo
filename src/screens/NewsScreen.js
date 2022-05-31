@@ -6,7 +6,7 @@ import { COLORS, FONTS, icons, images, SIZES } from "../constants";
 import { Dimensions} from 'react-native';
 import { db, storage, app } from '../config/firebase';
 import { collection, getDocs, query } from 'firebase/firestore';
-import { Fontisto } from '@expo/vector-icons';
+import { Ionicons, FontAwesome, EvilIcons, Fontisto } from '@expo/vector-icons'; 
 
 import { NewsContext } from "../context/NewsContext";
 import { MaterialIcons } from '@expo/vector-icons'; 
@@ -80,6 +80,20 @@ function renderHeader() {
         </TouchableOpacity>
       </View> 
     )
+  }
+
+  const renderRefreshButton = () => {
+      return (
+          <View style={{position: 'absolute', bottom: 0, marginLeft: 320}}>
+              <View style={{justifyContent: 'center'}}>
+              <TouchableOpacity>
+                {/* <Text style={{color: '#000000'}}>Refresh</Text> */}
+                <EvilIcons name="refresh" size={40} color="#000" style={{fontSize: 40}}/>
+              </TouchableOpacity>
+
+            </View>
+          </View>
+      )
   }
 
   function renderNewsHorizontalOrg() {
@@ -275,17 +289,19 @@ function renderNewsVertical() {
                     showsVerticalScrollIndicator={false}
                     ListHeaderComponent={renderAtTopNews}
                     refreshing={refresh}
-                    style={{marginBottom: width - (width - 100)}}
+                    style={{marginBottom: width - (width - 27)}}
                     onRefresh={() => fetchNews()}
                 />
     )
 }
 
     return (
-      <SafeAreaView>
+      <SafeAreaView style={{backgroundColor: COLORS.white, flex: 1}}>
           {/* <Header /> */}
+
           {renderHeader()}
           {renderNewsVertical()}
+          {renderRefreshButton()}
       </SafeAreaView>
     )
 

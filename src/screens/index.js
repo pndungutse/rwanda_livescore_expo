@@ -8,6 +8,7 @@ import HighlightDetail from "./HighlightDetail";
 import MatchDetail from "./MatchDetail";
 import SkeletonTestScreen from "./SkeletonTestScreen";
 import StatisticsScreen from "./StatisticsScreen";
+import RedirectScreen from "./RedirectScreen";
 
 export {
     WelcomeScreen,
@@ -19,5 +20,6 @@ export {
     HighlightDetail,
     MatchDetail,
     SkeletonTestScreen,
-    StatisticsScreen
+    StatisticsScreen,
+    RedirectScreen
 }   

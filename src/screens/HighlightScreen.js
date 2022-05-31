@@ -5,11 +5,7 @@ import { HightlightContext } from '../context/HighlightContext'
 import Header from '../components/Header'
 import { COLORS, FONTS, icons, images, SIZES } from "../constants";
 import YoutubePlayer from "react-native-youtube-iframe";
-import { Fontisto } from '@expo/vector-icons';
-import { AntDesign } from '@expo/vector-icons'; 
-import { MaterialIcons } from '@expo/vector-icons'; 
-import { Ionicons } from '@expo/vector-icons'; 
-import { MaterialCommunityIcons } from '@expo/vector-icons'; 
+import { Fontisto, AntDesign, MaterialIcons, Ionicons, MaterialCommunityIcons, EvilIcons } from '@expo/vector-icons';
 import { Dimensions} from 'react-native'
 
 
@@ -84,6 +80,20 @@ function renderHighlightHeader() {
         {/* <Ionicons name="search" size={25} color="#fff" /> */}
       </TouchableOpacity>
     </View> 
+  )
+}
+
+const renderRefreshButton = () => {
+  return (
+      <View style={{position: 'absolute', bottom: 80, marginLeft: 320}}>
+          <View style={{justifyContent: 'center'}}>
+          <TouchableOpacity>
+            {/* <Text style={{color: '#000000'}}>Refresh</Text> */}
+            <EvilIcons name="refresh" size={40} color="#000" style={{fontSize: 40}}/>
+          </TouchableOpacity>
+
+        </View>
+      </View>
   )
 }
 
@@ -200,7 +210,7 @@ function renderHeader() {
                     onRefresh={() => fetchHighlights()}
                     style={{
                       marginTop: 5,
-                      marginBottom: width - (width - 110)
+                      marginBottom: width - (width - 106)
                     }}
                 />
     )
@@ -211,7 +221,8 @@ function renderHeader() {
           {/* <Header /> */}
           {renderHighlightHeader()}
           {renderHighlights()}
-          <View style={{marginBottom: 10}}></View>
+          {renderRefreshButton()}
+          {/* <View style={{marginBottom: 10}}></View> */}
       </SafeAreaView>
   )
 }

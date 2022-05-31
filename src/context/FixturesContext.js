@@ -14,14 +14,6 @@ function FixturesContextProvider(props){
     const [endDate, setEndDate] = useState(new Date());
     const [testString, setTestString] = useState("testString");
 
-
-
-    function onDateSelected(date) {
-      fetchFixtures();
-      getFirstDivionFixtures();
-
-    }
-
     const fetchFixtures = () => {
       // setDateSelected(dateSelected);
       // getFirstDivionFixtures();
@@ -36,11 +28,7 @@ function FixturesContextProvider(props){
 
     const getFirstDivionFixtures = async () => {
       try {
-        // console.log("Start Selected from context: "+startDate);
-        // console.log("End Selected from context: "+endDate);
-        // console.log("My Test String in: "+testString);
 
-        
         dateSearched1.setDate(dateSearched1.getDate())
         dateSearched2.setDate(dateSearched2.getDate())
 
@@ -62,14 +50,12 @@ function FixturesContextProvider(props){
       }
       
     };
-    // console.log(firstDivisionFixtures);
 
     useEffect(() => {
         getFirstDivionFixtures();
         setIsLoading(false);
-        // onDateSelected();
         fetchFixtures();
-        console.log(startDate);
+        // console.log(startDate);
       }, []);
     //   console.log(fixtures);
 
